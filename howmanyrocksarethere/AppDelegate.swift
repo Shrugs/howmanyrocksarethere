@@ -23,6 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window.rootViewController = ViewController()
     window.makeKeyAndVisible()
 
+    // Appearance
+
+    UITabBar.appearance().tintColor = Constants.Color.TintColor
+    UITabBar.appearance().barTintColor = Constants.Color.BackgroundColor
+
     return true
   }
 
