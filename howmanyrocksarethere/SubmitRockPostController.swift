@@ -35,6 +35,8 @@ class SubmitRockPostController : UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    view.backgroundColor = Constants.Color.BackgroundColor
+
     view.addSubview(container)
     container.snp_makeConstraints { make in
       make.edges.equalTo(view)
@@ -42,7 +44,9 @@ class SubmitRockPostController : UIViewController {
 
     container.addSubview(content)
     content.snp_makeConstraints { make in
-      make.edges.equalTo(view)
+      make.edges.equalTo(container)
+      make.width.equalTo(view)
+      make.height.equalTo(view)
     }
 
     view.backgroundColor = Constants.Color.AltBackground
@@ -50,8 +54,8 @@ class SubmitRockPostController : UIViewController {
     let imageView = UIImageView(image: image)
     content.addSubview(imageView)
     imageView.snp_makeConstraints { make in
-      make.top.left.right.equalTo(view)
-      make.height.equalTo(view.snp_width)
+      make.top.left.right.equalTo(content)
+      make.height.equalTo(content.snp_width)
     }
 
     nicknameField = newTextField("Nick Name")
@@ -59,7 +63,7 @@ class SubmitRockPostController : UIViewController {
     content.addSubview(nicknameField)
     nicknameField.snp_makeConstraints { make in
       make.top.equalTo(imageView.snp_bottom).offset(TEXT_FIELD_OFFSET)
-      make.left.right.equalTo(view)
+      make.left.right.equalTo(content)
       make.height.equalTo(TEXT_FIELD_HEIGHT)
     }
 
@@ -68,7 +72,7 @@ class SubmitRockPostController : UIViewController {
     content.addSubview(notesField)
     notesField.snp_makeConstraints { make in
       make.top.equalTo(nicknameField.snp_bottom).offset(TEXT_FIELD_OFFSET)
-      make.left.right.equalTo(view)
+      make.left.right.equalTo(content)
       make.height.equalTo(TEXT_FIELD_HEIGHT)
     }
 
@@ -76,7 +80,7 @@ class SubmitRockPostController : UIViewController {
     v.backgroundColor = .redColor()
     content.addSubview(v)
     v.snp_makeConstraints { make in
-      make.left.right.equalTo(view)
+      make.left.right.equalTo(content)
       make.top.equalTo(notesField.snp_bottom).offset(10)
       make.height.equalTo(300)
     }
