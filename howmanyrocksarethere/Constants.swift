@@ -30,7 +30,7 @@ struct Constants {
 
   struct Color {
     static var BackgroundColor = UIColor(red: 33.0/255.0, green: 33.0/255.0, blue: 33.0/255.0, alpha: 1.0)
-    static var TintColor = UIColor(red: 237.0/255.0, green: 114.0/255.0, blue: 124.0/255.0, alpha: 1.0)
+    static var TintColor = UIColor(red: 68.0/255.0, green: 230.0/255.0, blue: 112.0/255.0, alpha: 1.0)
     static var AltBackground = UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
     static var White = UIColor.whiteColor()
 

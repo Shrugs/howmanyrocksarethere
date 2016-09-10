@@ -51,7 +51,7 @@ class SubmitRockPostController : UIViewController {
       make.height.equalTo(view)
     }
 
-    view.backgroundColor = Constants.Color.AltBackground
+    view.backgroundColor = Constants.Color.BackgroundColor
 
     let imageView = UIImageView(image: image)
     content.addSubview(imageView)
@@ -137,9 +137,10 @@ class SubmitRockPostController : UIViewController {
 
   func newTextField(placeholder: String) -> KaedeTextField {
     let textField = KaedeTextField()
-    textField.placeholderColor = Constants.Color.White
+    textField.placeholderColor = Constants.Color.BackgroundColor
     textField.foregroundColor = Constants.Color.TintColor
     textField.placeholder = placeholder
+    textField.textColor = Constants.Color.White
 
     return textField
   }
