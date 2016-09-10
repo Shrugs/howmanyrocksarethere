@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C9F82B211D8483CF00608689 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B201D8483CF00608689 /* AppDelegate.swift */; };
 		C9F82B231D8483CF00608689 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B221D8483CF00608689 /* ViewController.swift */; };
-		C9F82B261D8483CF00608689 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9F82B241D8483CF00608689 /* Main.storyboard */; };
 		C9F82B281D8483CF00608689 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F82B271D8483CF00608689 /* Assets.xcassets */; };
 		C9F82B2B1D8483CF00608689 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9F82B291D8483CF00608689 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -18,7 +17,6 @@
 		C9F82B1D1D8483CF00608689 /* howmanyrocksarethere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = howmanyrocksarethere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F82B201D8483CF00608689 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9F82B221D8483CF00608689 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C9F82B251D8483CF00608689 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9F82B271D8483CF00608689 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9F82B2A1D8483CF00608689 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9F82B2C1D8483CF00608689 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -56,7 +54,6 @@
 			children = (
 				C9F82B201D8483CF00608689 /* AppDelegate.swift */,
 				C9F82B221D8483CF00608689 /* ViewController.swift */,
-				C9F82B241D8483CF00608689 /* Main.storyboard */,
 				C9F82B271D8483CF00608689 /* Assets.xcassets */,
 				C9F82B291D8483CF00608689 /* LaunchScreen.storyboard */,
 				C9F82B2C1D8483CF00608689 /* Info.plist */,
@@ -124,7 +121,6 @@
 			files = (
 				C9F82B2B1D8483CF00608689 /* LaunchScreen.storyboard in Resources */,
 				C9F82B281D8483CF00608689 /* Assets.xcassets in Resources */,
-				C9F82B261D8483CF00608689 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,14 +139,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		C9F82B241D8483CF00608689 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C9F82B251D8483CF00608689 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C9F82B291D8483CF00608689 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -252,6 +240,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = howmanyrocksarethere/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mat.tc.howmanyrocksarethere;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -263,6 +252,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = howmanyrocksarethere/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mat.tc.howmanyrocksarethere;
 				PRODUCT_NAME = "$(TARGET_NAME)";
