@@ -35,6 +35,8 @@ class SubmitRockPostController : UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    setupDismissHandler()
+
     view.backgroundColor = Constants.Color.BackgroundColor
 
     view.addSubview(container)
@@ -84,6 +86,16 @@ class SubmitRockPostController : UIViewController {
       make.top.equalTo(notesField.snp_bottom).offset(10)
       make.height.equalTo(300)
     }
+  }
+
+  func setupDismissHandler() {
+    let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+    view.addGestureRecognizer(tap)
+  }
+
+  func dismissKeyboard() {
+    nicknameField.resignFirstResponder()
+    notesField.resignFirstResponder()
   }
 
   func keyboardWasShown(notification: NSNotification) {
