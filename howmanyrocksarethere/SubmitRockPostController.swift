@@ -22,9 +22,21 @@ class SubmitRockPostController : UIViewController {
     self.init(nibName: nil, bundle: nil)
 
     self.image = image
+
+    let imageView = UIImageView(image: image)
+    view.addSubview(imageView)
+    imageView.snp_makeConstraints { make in
+      make.top.left.right.equalTo(view)
+      make.height.equalTo(view.snp_width)
+    }
+
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+  }
+
+  override func prefersStatusBarHidden() -> Bool {
+    return true
   }
 }
