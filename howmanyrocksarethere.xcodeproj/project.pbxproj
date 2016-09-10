@@ -11,6 +11,10 @@
 		C9F82B231D8483CF00608689 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B221D8483CF00608689 /* ViewController.swift */; };
 		C9F82B281D8483CF00608689 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F82B271D8483CF00608689 /* Assets.xcassets */; };
 		C9F82B2B1D8483CF00608689 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9F82B291D8483CF00608689 /* LaunchScreen.storyboard */; };
+		C9F82B371D84891100608689 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F82B331D84891100608689 /* Alamofire.framework */; };
+		C9F82B381D84891100608689 /* Fusuma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F82B341D84891100608689 /* Fusuma.framework */; };
+		C9F82B391D84891100608689 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F82B351D84891100608689 /* SnapKit.framework */; };
+		C9F82B3A1D84891100608689 /* WebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F82B361D84891100608689 /* WebImage.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +24,10 @@
 		C9F82B271D8483CF00608689 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9F82B2A1D8483CF00608689 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9F82B2C1D8483CF00608689 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9F82B331D84891100608689 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = SOURCE_ROOT; };
+		C9F82B341D84891100608689 /* Fusuma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fusuma.framework; path = Carthage/Build/iOS/Fusuma.framework; sourceTree = SOURCE_ROOT; };
+		C9F82B351D84891100608689 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = SOURCE_ROOT; };
+		C9F82B361D84891100608689 /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +35,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9F82B391D84891100608689 /* SnapKit.framework in Frameworks */,
+				C9F82B371D84891100608689 /* Alamofire.framework in Frameworks */,
+				C9F82B381D84891100608689 /* Fusuma.framework in Frameworks */,
+				C9F82B3A1D84891100608689 /* WebImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +64,10 @@
 		C9F82B1F1D8483CF00608689 /* howmanyrocksarethere */ = {
 			isa = PBXGroup;
 			children = (
+				C9F82B331D84891100608689 /* Alamofire.framework */,
+				C9F82B341D84891100608689 /* Fusuma.framework */,
+				C9F82B351D84891100608689 /* SnapKit.framework */,
+				C9F82B361D84891100608689 /* WebImage.framework */,
 				C9F82B201D8483CF00608689 /* AppDelegate.swift */,
 				C9F82B221D8483CF00608689 /* ViewController.swift */,
 				C9F82B271D8483CF00608689 /* Assets.xcassets */,
@@ -71,6 +87,7 @@
 				C9F82B191D8483CF00608689 /* Sources */,
 				C9F82B1A1D8483CF00608689 /* Frameworks */,
 				C9F82B1B1D8483CF00608689 /* Resources */,
+				C9F82B321D8488A700608689 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -125,6 +142,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C9F82B321D8488A700608689 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/WebImage.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Fusuma.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C9F82B191D8483CF00608689 /* Sources */ = {
@@ -239,6 +276,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = howmanyrocksarethere/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -251,6 +292,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = howmanyrocksarethere/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
