@@ -22,18 +22,39 @@ class SubmitRockFlowController: UINavigationController {
 
     self.setNavigationBarHidden(true, animated: false)
 
-    setupFusuma()
-    let camera = FusumaViewController()
-    camera.delegate = self
+    let firstView = PotentialMatchCollectionView()
+    firstView.delegate = self
 
     self.viewControllers = [
-      camera
+      firstView
     ]
   }
 
   func setupFusuma() {
     Fusuma.fusumaTintColor = Constants.Color.TintColor
     Fusuma.fusumaCheckImage = UIImage(named: "ic_navigate_next", inBundle: nil, compatibleWithTraitCollection: nil)
+  }
+
+  func showCamera() {
+    setupFusuma()
+    let camera = FusumaViewController()
+    camera.delegate = self
+    self.pushViewController(camera, animated: true)
+  }
+
+  func showProfile(rock: [String: AnyObject]) {
+    
+  }
+}
+
+extension SubmitRockFlowController : PotentialMatchCollectionDelegate {
+  func didSelectPotentialMatch(rock: [String: AnyObject]) {
+    // show profile for rock
+    showProfile(rock)
+  }
+  func didChooseUniqueRock() {
+    // show fusuma
+    showCamera()
   }
 }
 
