@@ -84,7 +84,7 @@ extension FeedViewController : UICollectionViewDataSource {
 
   func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
     let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! FeedHeader
-    cell.titleLabel.text = "00000000001 rocks"
+    cell.titleLabel.text = "0000000000\(self.rocks.count) rocks"
     return cell
   }
 

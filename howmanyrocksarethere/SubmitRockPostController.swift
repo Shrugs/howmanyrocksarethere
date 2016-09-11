@@ -128,14 +128,14 @@ class SubmitRockPostController : UIViewController {
     uploadRequest.contentType = "image/png"
     uploadRequest.body = url
 
-    uploadRequest.uploadProgress = {[unowned self] (bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) in
-      dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-        // @TODO(shrugs) update UI with progress
-//        self.amountUploaded = totalBytesSent
-//        self.filesize = totalBytesExpectedToSend;
-//        self.update()
-      })
-    }
+//    uploadRequest.uploadProgress = {[unowned self] (bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) in
+//      dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+//        // @TODO(shrugs) update UI with progress
+////        self.amountUploaded = totalBytesSent
+////        self.filesize = totalBytesExpectedToSend;
+////        self.update()
+//      })
+//    }
 
     let transferManager : AWSS3TransferManager = AWSS3TransferManager.defaultS3TransferManager()
     // start the upload
@@ -143,13 +143,22 @@ class SubmitRockPostController : UIViewController {
       // once the uploadmanager finishes check if there were any errors
       if (task.error != nil) {
         print(task.error)
-      } else {
-        print(s3Url(key))
+        return nil
       }
 
-      // @TODO(shrugs) now use this url and submit the rock to the database
+      let imageUrl = s3Url(key)
 
+      THE_DATABASE.sharedDatabase.submitRock([
+        "lat": 72.00,
+        "lng": 93.0,
+        "image": imageUrl,
+        "nickname": self.nicknameField.text ?? "",
+        "comment": self.notesField.text ?? ""
+      ]) {
+        // assume success
         // @TODO(shrugs) remove loading view here
+        self.delegate?.didFinish()
+      }
       return nil
     }
 

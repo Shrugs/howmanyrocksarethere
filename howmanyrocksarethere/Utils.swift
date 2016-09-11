@@ -24,5 +24,5 @@ func randomAlphaNumericString(length: Int) -> String {
 }
 
 func s3Url(key: String) -> String {
-  return "https://s3.amazonaws.com/\(AWS.S3.BucketName)/\(key)"
+  return "https://\(AWS.S3.BucketName).s3.amazonaws.com/\(key)"
 }

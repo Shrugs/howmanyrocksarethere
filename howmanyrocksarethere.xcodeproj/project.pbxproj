@@ -28,6 +28,8 @@
 		C9F82B541D8509A100608689 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F82B521D8509A100608689 /* AWSCore.framework */; };
 		C9F82B551D8509A100608689 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F82B531D8509A100608689 /* AWSS3.framework */; };
 		C9F82B571D850F8300608689 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B561D850F8300608689 /* Utils.swift */; };
+		C9F82B591D85A4C800608689 /* LoadingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B581D85A4C800608689 /* LoadingController.swift */; };
+		C9F82B5B1D85A59700608689 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B5A1D85A59700608689 /* UIImage+Gif.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		C9F82B521D8509A100608689 /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCore.framework; path = Carthage/Build/iOS/AWSCore.framework; sourceTree = SOURCE_ROOT; };
 		C9F82B531D8509A100608689 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = Carthage/Build/iOS/AWSS3.framework; sourceTree = SOURCE_ROOT; };
 		C9F82B561D850F8300608689 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		C9F82B581D85A4C800608689 /* LoadingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingController.swift; sourceTree = "<group>"; };
+		C9F82B5A1D85A59700608689 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,8 @@
 				C9F82B471D84C82300608689 /* THE_DATABASE.swift */,
 				C9F82B4F1D8503A800608689 /* Env.swift */,
 				C9F82B561D850F8300608689 /* Utils.swift */,
+				C9F82B581D85A4C800608689 /* LoadingController.swift */,
+				C9F82B5A1D85A59700608689 /* UIImage+Gif.swift */,
 			);
 			path = howmanyrocksarethere;
 			sourceTree = "<group>";
@@ -215,11 +221,13 @@
 			files = (
 				C9F82B4E1D85010D00608689 /* IsThisARockController.swift in Sources */,
 				C9F82B231D8483CF00608689 /* ViewController.swift in Sources */,
+				C9F82B5B1D85A59700608689 /* UIImage+Gif.swift in Sources */,
 				C9F82B4C1D84F9B500608689 /* FeedHeader.swift in Sources */,
 				C9F82B441D84964C00608689 /* SubmitRockPostController.swift in Sources */,
 				C9F82B211D8483CF00608689 /* AppDelegate.swift in Sources */,
 				C9F82B401D8490F700608689 /* FeedViewController.swift in Sources */,
 				C9F82B4A1D84CC8A00608689 /* FeedItem.swift in Sources */,
+				C9F82B591D85A4C800608689 /* LoadingController.swift in Sources */,
 				C9F82B421D84927B00608689 /* SubmitRockFlowController.swift in Sources */,
 				C9F82B481D84C82300608689 /* THE_DATABASE.swift in Sources */,
 				C9F82B3E1D848EEE00608689 /* Constants.swift in Sources */,

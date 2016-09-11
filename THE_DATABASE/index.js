@@ -16,6 +16,7 @@ var dbName = process.env.MONGO_DATABASE_NAME || 'howmanyrocks'
 var db = pmongo(dbHost + ':' + dbPort + '/' + dbName, ['counters', 'rocks', 'users'])
 var counters = db.collection('counters')
 var rocks = db.collection('rocks')
+var notrocks = db.collection('notrocks')
 var users = db.collection('users')
 
 /**
@@ -96,11 +97,6 @@ function randomPicture() {
 /**
  * Routes
  */
-
-app.get('/rocks/count', function(req, res) {
-
-})
-
 app.get('/user/:id', function(req, res) {
   users.findOne({
     _id: ObjectID(req.params.id)
@@ -154,8 +150,29 @@ app.get('/rocks', function(req, res) {
     })
 })
 
-app.get('/rock/:id', function(req, res) {
-  // @TODO(shrugs) return data for a specific rock
+app.get('/notrocks', function(req, res) {
+  notrocks.find({}).sort({ created_at: -1 }).toArray()
+    .then(function(notrocks) {
+      // for each rock, load the user
+      Promise
+        .all(notrocks.map(function(rock) {
+          if (!rock.owner_id) {
+            return rock
+          }
+          // fuck performance lol
+          return users.findOne({
+            _id: ObjectID(rock.owner_id)
+          })
+          .then(function(user) {
+            return Object.assign(rock, {
+              owner: user
+            })
+          })
+        }))
+        .then(function(rocks) {
+          res.json(rocks)
+        })
+    })
 })
 
 app.post('/rocks', function(req, res) {
@@ -179,7 +196,33 @@ app.post('/rocks', function(req, res) {
         owner_id: req.user._id,
         lat: req.body.lat,
         lng: req.body.lng,
-        image: randomPicture(),
+        image: req.body.image,
+        nickname: req.body.nickname,
+        comment: req.body.comment,
+        upvotes: 0,
+        downvotes: 0,
+        created_at: new Date()
+      })
+    })
+    .then(function(newRock) {
+      res.json(newRock)
+    })
+    .catch(onError(res))
+
+    // @TODO(shrugs) - post new count to twitter
+})
+
+
+app.post('/notrocks', function(req, res) {
+  // @TODO(shrugs) - reverse geocode location
+  getNextId('rock')
+    .then(function(id) {
+      return notrocks.insert({
+        id: id,
+        owner_id: req.user._id,
+        lat: req.body.lat,
+        lng: req.body.lng,
+        image: req.body.image,
         nickname: req.body.nickname,
         comment: req.body.comment,
         upvotes: 0,
