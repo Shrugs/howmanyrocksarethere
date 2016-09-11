@@ -63,6 +63,16 @@ counters.findOne({ _id: 'rock_id' })
     }
   })
 
+counters.findOne({ _id: 'notrock_id' })
+  .then(function(ret) {
+    if (!ret) {
+      counters.insert({
+        _id: 'notrock_id',
+        seq: 130000000
+      })
+    }
+  })
+
 function getNextId(name) {
   return counters.findAndModify({
       query: { _id: name + '_id' },
@@ -153,7 +163,7 @@ app.get('/rocks', function(req, res) {
 
 app.get('/nearbyrocks', function(req, res) {
   rocks.find({
-    id: { $in: [ 65, 64, 49, 63 ] }
+    id: { $in: [ 3, 4, 2, 1 ] }
   }).sort({ created_at: -1 }).toArray()
     .then(function(rocks) {
       // for each rock, load the user
@@ -244,7 +254,7 @@ app.post('/rocks', function(req, res) {
 
 app.post('/notrocks', function(req, res) {
   // @TODO(shrugs) - reverse geocode location
-  getNextId('rock')
+  getNextId('notrock')
     .then(function(id) {
       return notrocks.insert({
         id: id,

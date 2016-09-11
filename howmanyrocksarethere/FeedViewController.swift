@@ -119,6 +119,7 @@ extension FeedViewController : UICollectionViewDataSource {
 
 extension FeedViewController : SubmitRockFlowControllerDelegate {
   func shouldClose() {
+    loadRocks()
     self.dismissViewControllerAnimated(true, completion: nil)
   }
 }
