@@ -18,17 +18,17 @@ struct Constants {
   struct Text {
     struct Font {
       static var Size : CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 22 : 30
-      static var Name = "AvenirNext-UltraLight"
+      static var Name = "Courier"
       static var Color = UIColor.whiteColor()
     }
     struct BoldFont {
       static var Size : CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 22 : 30
-      static var Name = "AvenirNext-DemiBold"
+      static var Name = "Courier-Bold"
       static var Color = UIColor.whiteColor()
     }
     struct TitleFont {
       static var Size : CGFloat = 15
-      static var Name = "AvenirNext-DemiBold"
+      static var Name = "Courier-Bold"
       static var Color = UIColor.whiteColor()
     }
   }

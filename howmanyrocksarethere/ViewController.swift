@@ -66,6 +66,15 @@ class ViewController: UIViewController {
     feed.didMoveToParentViewController(self)
   }
 
+  override func viewDidAppear(animated: Bool) {
+    // if this is the first launch, aka, token doesn't exist, ask for a username and create the user
+    if THE_DATABASE.sharedDatabase.token == nil {
+      let login = LoginViewController()
+      login.delegate = self
+      presentViewController(login, animated: true, completion: nil)
+    }
+  }
+
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return .LightContent
   }
@@ -93,3 +102,37 @@ extension ViewController : SubmitRockFlowControllerDelegate {
     self.tabBar.selectedItem = tabBar.items!.first!
   }
 }
+
+
+extension ViewController : LoginViewControllerDelegate {
+  func didFinish() {
+    dismissViewControllerAnimated(true, completion: nil)
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

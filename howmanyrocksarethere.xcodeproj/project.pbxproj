@@ -30,6 +30,7 @@
 		C9F82B571D850F8300608689 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B561D850F8300608689 /* Utils.swift */; };
 		C9F82B591D85A4C800608689 /* LoadingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B581D85A4C800608689 /* LoadingController.swift */; };
 		C9F82B5B1D85A59700608689 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B5A1D85A59700608689 /* UIImage+Gif.swift */; };
+		C9F82B5D1D85B02200608689 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B5C1D85B02200608689 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		C9F82B561D850F8300608689 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		C9F82B581D85A4C800608689 /* LoadingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingController.swift; sourceTree = "<group>"; };
 		C9F82B5A1D85A59700608689 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
+		C9F82B5C1D85B02200608689 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				C9F82B561D850F8300608689 /* Utils.swift */,
 				C9F82B581D85A4C800608689 /* LoadingController.swift */,
 				C9F82B5A1D85A59700608689 /* UIImage+Gif.swift */,
+				C9F82B5C1D85B02200608689 /* LoginViewController.swift */,
 			);
 			path = howmanyrocksarethere;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				C9F82B4E1D85010D00608689 /* IsThisARockController.swift in Sources */,
 				C9F82B231D8483CF00608689 /* ViewController.swift in Sources */,
 				C9F82B5B1D85A59700608689 /* UIImage+Gif.swift in Sources */,
+				C9F82B5D1D85B02200608689 /* LoginViewController.swift in Sources */,
 				C9F82B4C1D84F9B500608689 /* FeedHeader.swift in Sources */,
 				C9F82B441D84964C00608689 /* SubmitRockPostController.swift in Sources */,
 				C9F82B211D8483CF00608689 /* AppDelegate.swift in Sources */,

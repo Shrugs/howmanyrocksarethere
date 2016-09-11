@@ -29,6 +29,20 @@ class FeedHeader: UICollectionReusableView {
     titleLabel.snp_makeConstraints { make in
       make.left.right.centerY.equalTo(self)
     }
+
+    let tap = UITapGestureRecognizer(target: self, action: #selector(resetDefaults))
+    tap.numberOfTapsRequired = 2
+    self.addGestureRecognizer(tap)
+  }
+
+  func resetDefaults() {
+    let defaults = NSUserDefaults.standardUserDefaults()
+    for key in defaults.dictionaryRepresentation().keys {
+      defaults.removeObjectForKey(key)
+    }
+    defaults.synchronize()
+    
+    exit(0)
   }
   
   required init?(coder aDecoder: NSCoder) {
