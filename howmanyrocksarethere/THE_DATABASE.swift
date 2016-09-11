@@ -94,4 +94,17 @@ class THE_DATABASE {
         }
       }
   }
+
+  func getPotentialRocks(cb: ([[String: AnyObject]]) -> Void) {
+    Alamofire.request(.GET, "\(baseUrl)/rocks")
+      .responseJSON { resp in
+        switch resp.result {
+        case .Success(let JSON):
+          let rocks = JSON as! [[String: AnyObject]]
+          cb(Array(rocks.prefix(5)) as [[String: AnyObject]])
+        default:
+          print(resp)
+        }
+    }
+  }
 }

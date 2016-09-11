@@ -51,7 +51,7 @@ class PotentialMatchCollectionView : UIViewController {
   }
 
   func loadRocks() {
-    THE_DATABASE.sharedDatabase.getRocks { [weak self] rocks in
+    THE_DATABASE.sharedDatabase.getPotentialRocks { [weak self] rocks in
       self?.rocks = rocks
       self?.collectionView.reloadData()
     }
