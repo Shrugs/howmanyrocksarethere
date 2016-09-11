@@ -85,21 +85,10 @@ extension ViewController : UITabBarDelegate {
   func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
     // if item is the second one
     if (item.tag == 1) {
-      // present fusuma UI
-      let submitController = SubmitRockFlowController()
-      submitController.cDelegate = self
-      submitController.view.frame = self.view.bounds
-      self.presentViewController(submitController, animated: true, completion: nil)
+      // present map UI
     }
 
     // @TODO(shrugs) - present any other view controllers if necessary
-  }
-}
-
-extension ViewController : SubmitRockFlowControllerDelegate {
-  func shouldClose() {
-    self.dismissViewControllerAnimated(true, completion: nil)
-    self.tabBar.selectedItem = tabBar.items!.first!
   }
 }
 

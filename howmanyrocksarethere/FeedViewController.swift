@@ -76,7 +76,7 @@ extension FeedViewController : UICollectionViewDelegateFlowLayout {
   }
 
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: self.view.frame.size.width, height: 50)
+    return CGSize(width: self.view.frame.size.width, height: 100)
   }
 }
 
@@ -85,6 +85,7 @@ extension FeedViewController : UICollectionViewDataSource {
   func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
     let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! FeedHeader
     cell.titleLabel.text = "0000000000\(self.rocks.count) rocks"
+    cell.delegate = self
     return cell
   }
 
@@ -107,6 +108,20 @@ extension FeedViewController : UICollectionViewDataSource {
   }
 }
 
+extension FeedViewController : SubmitRockFlowControllerDelegate {
+  func shouldClose() {
+    self.dismissViewControllerAnimated(true, completion: nil)
+  }
+}
+
+extension FeedViewController : FeedHeaderDelegate {
+  func didTapNewRock() {
+    let submitController = SubmitRockFlowController()
+    submitController.cDelegate = self
+    submitController.view.frame = self.view.bounds
+    self.presentViewController(submitController, animated: true, completion: nil)
+  }
+}
 
 
 
