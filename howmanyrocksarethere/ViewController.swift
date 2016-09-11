@@ -11,10 +11,8 @@ import SnapKit
 
 class ViewController: UIViewController {
 
-  let tabBar = UITabBar()
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  lazy var tabBar : UITabBar = { [unowned self] in
+    let tabBar = UITabBar()
 
     let list = UITabBarItem(title: nil, image: UIImage(named: "ic_list"), selectedImage: UIImage(named: "ic_list"))
     let camera = UITabBarItem(title: nil, image: UIImage(named: "ic_photo_camera"), selectedImage: UIImage(named: "ic_photo_camera"))
@@ -30,22 +28,47 @@ class ViewController: UIViewController {
     tabBar.selectedItem = tabBar.items!.first!
     tabBar.delegate = self
 
+    return tabBar
+  }()
+
+  let statusBarBackground : UIView = {
+    let view = UIView()
+    view.backgroundColor = Constants.Color.BackgroundColor
+    return view
+  }()
+
+  let feed = FeedViewController()
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    view.backgroundColor = Constants.Color.BackgroundColor
+
     view.addSubview(tabBar)
     tabBar.snp_makeConstraints { make in
       make.bottom.left.right.equalTo(view)
       make.height.equalTo(49)
     }
 
-    let feed = FeedViewController()
+    view.addSubview(statusBarBackground)
+    statusBarBackground.snp_makeConstraints { make in
+      make.top.left.right.equalTo(view)
+      make.height.equalTo(20)
+    }
 
     self.addChildViewController(feed)
     self.view.addSubview(feed.view)
     feed.view.snp_makeConstraints { make in
-      make.top.left.right.equalTo(self.view)
+      make.top.equalTo(statusBarBackground.snp_bottom)
+      make.left.right.equalTo(self.view)
       make.bottom.equalTo(tabBar.snp_top)
     }
     feed.didMoveToParentViewController(self)
 
+  }
+
+  override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    return .LightContent
   }
 
 }
@@ -68,5 +91,6 @@ extension ViewController : UITabBarDelegate {
 extension ViewController : SubmitRockFlowControllerDelegate {
   func shouldClose() {
     self.dismissViewControllerAnimated(true, completion: nil)
+    self.tabBar.selectedItem = tabBar.items!.first!
   }
 }

@@ -96,6 +96,11 @@ function randomPicture() {
 /**
  * Routes
  */
+
+app.get('/rocks/count', function(req, res) {
+
+})
+
 app.get('/user/:id', function(req, res) {
   users.findOne({
     _id: ObjectID(req.params.id)
@@ -125,7 +130,7 @@ app.get('/valid-username', function(req, res) {
 })
 
 app.get('/rocks', function(req, res) {
-  rocks.find({}).toArray()
+  rocks.find({}).sort({ created_at: -1 }).toArray()
     .then(function(rocks) {
       // for each rock, load the user
       Promise
@@ -174,11 +179,12 @@ app.post('/rocks', function(req, res) {
         owner_id: req.user._id,
         lat: req.body.lat,
         lng: req.body.lng,
-        image: req.body.image,
+        image: randomPicture(),
         nickname: req.body.nickname,
         comment: req.body.comment,
         upvotes: 0,
-        downvotes: 0
+        downvotes: 0,
+        created_at: new Date()
       })
     })
     .then(function(newRock) {
@@ -191,10 +197,26 @@ app.post('/rocks', function(req, res) {
 
 app.post('/rock/:id/upvote', function(req, res) {
   // @TODO(shrugs) upvote a rock
+  rocks.findAndModify({
+    query: { _id: ObjectID(req.params.id) },
+    update: { $inc: { upvotes: 1 } },
+    new: true
+  })
+  .then(function(rock) {
+    res.json(rock);
+  })
 })
 
 app.post('/rock/:id/downvote', function(req, res) {
   // @TODO(shrugs) downvote a rock
+  rocks.findAndModify({
+    query: { _id: ObjectID(req.params.id) },
+    update: { $inc: { downvotes: 1 } },
+    new: true
+  })
+  .then(function(rock) {
+    res.json(rock);
+  })
 })
 
 var port = 3000 || process.env.PORT

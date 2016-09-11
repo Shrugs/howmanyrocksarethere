@@ -33,6 +33,7 @@ struct Constants {
     static var TintColor = UIColor(red: 68.0/255.0, green: 230.0/255.0, blue: 112.0/255.0, alpha: 1.0)
     static var AltBackground = UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
     static var White = UIColor.whiteColor()
+    static var OffWhite = UIColor.whiteColor().colorWithAlphaComponent(0.7)
 
     static var Facebook = UIColor(red: 59.0/255.0, green: 89.0/255.0, blue: 152.0/255.0, alpha: 1.0)
     static var Twitter = UIColor(red: 0.0, green: 172.0/255.0, blue: 237.0/255.0, alpha: 1.0)

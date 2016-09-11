@@ -19,10 +19,32 @@ protocol SubmitRockPostControllerDelegate {
 class SubmitRockPostController : UIViewController {
 
   var image : UIImage!
-  var nicknameField : UITextField!
-  var notesField : UITextField!
+  lazy var nicknameField : UITextField = { [unowned self] in
+    return self.newTextField("Nick Name *")
+  }()
+  lazy var notesField : UITextField = { [unowned self] in
+    return self.newTextField("Notes *")
+  }()
   let container = UIScrollView()
   let content = UIView()
+
+  let requiredFields : UILabel = {
+    let label = UILabel()
+    label.font = UIFont(name: Constants.Text.BoldFont.Name, size: 24)
+    label.textColor = Constants.Color.BackgroundColor
+    label.textAlignment = .Center
+    label.text = "* Required Fields"
+    return label
+  }()
+
+  lazy var continueButton : UIButton = { [unowned self] in
+    let button = UIButton(type: .Custom)
+    button.setTitle("CONTINUE", forState: .Normal)
+    button.titleLabel?.textColor = Constants.Color.White
+    button.backgroundColor = Constants.Color.TintColor
+    button.addTarget(self, action: #selector(submitRock), forControlEvents: .TouchUpInside)
+    return button
+  }()
 
   var delegate : SubmitRockPostControllerDelegate?
 
@@ -37,7 +59,7 @@ class SubmitRockPostController : UIViewController {
 
     setupDismissHandler()
 
-    view.backgroundColor = Constants.Color.BackgroundColor
+    view.backgroundColor = Constants.Color.AltBackground
 
     view.addSubview(container)
     container.snp_makeConstraints { make in
@@ -51,16 +73,12 @@ class SubmitRockPostController : UIViewController {
       make.height.equalTo(view)
     }
 
-    view.backgroundColor = Constants.Color.BackgroundColor
-
     let imageView = UIImageView(image: image)
     content.addSubview(imageView)
     imageView.snp_makeConstraints { make in
       make.top.left.right.equalTo(content)
       make.height.equalTo(content.snp_width)
     }
-
-    nicknameField = newTextField("Nick Name")
 
     content.addSubview(nicknameField)
     nicknameField.snp_makeConstraints { make in
@@ -69,8 +87,6 @@ class SubmitRockPostController : UIViewController {
       make.height.equalTo(TEXT_FIELD_HEIGHT)
     }
 
-    notesField = newTextField("Comment")
-
     content.addSubview(notesField)
     notesField.snp_makeConstraints { make in
       make.top.equalTo(nicknameField.snp_bottom).offset(TEXT_FIELD_OFFSET)
@@ -78,14 +94,25 @@ class SubmitRockPostController : UIViewController {
       make.height.equalTo(TEXT_FIELD_HEIGHT)
     }
 
-    let v = UIView()
-    v.backgroundColor = .redColor()
-    content.addSubview(v)
-    v.snp_makeConstraints { make in
-      make.left.right.equalTo(content)
-      make.top.equalTo(notesField.snp_bottom).offset(10)
-      make.height.equalTo(300)
+    content.addSubview(continueButton)
+    continueButton.snp_makeConstraints { make in
+      make.left.right.bottom.equalTo(content)
+      make.height.equalTo(70)
     }
+
+    content.addSubview(requiredFields)
+    requiredFields.snp_makeConstraints { make in
+      make.top.equalTo(notesField.snp_bottom).offset(25)
+      make.left.right.equalTo(content)
+      make.bottom.equalTo(continueButton.snp_top)
+    }
+  }
+
+  func submitRock() {
+    // @TODO(shrugs) start a loading indicator
+    // start request to submit the rock
+    // exit loading indicator
+    // trigger delegate close method
   }
 
   func setupDismissHandler() {
@@ -129,16 +156,10 @@ class SubmitRockPostController : UIViewController {
     listenToKeyboard()
   }
 
-  override func viewDidAppear(animated: Bool) {
-    super.viewDidAppear(animated)
-
-    print(container.contentSize)
-  }
-
-  func newTextField(placeholder: String) -> KaedeTextField {
-    let textField = KaedeTextField()
+  func newTextField(placeholder: String) -> YokoTextField {
+    let textField = YokoTextField()
     textField.placeholderColor = Constants.Color.BackgroundColor
-    textField.foregroundColor = Constants.Color.TintColor
+    textField.foregroundColor = Constants.Color.BackgroundColor
     textField.placeholder = placeholder
     textField.textColor = Constants.Color.White
 
