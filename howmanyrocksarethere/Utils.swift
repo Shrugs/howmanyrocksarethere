@@ -30,24 +30,14 @@ func s3Url(key: String) -> String {
 }
 
 func resizeImage(image: UIImage, newSize: CGSize) -> (UIImage) {
-  let newRect = CGRectIntegral(CGRectMake(0,0, newSize.width, newSize.height))
-  let imageRef = image.CGImage
+  let size = newSize
+  let hasAlpha = false
+  let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
 
-  UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
-  let context = UIGraphicsGetCurrentContext()
+  UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+  image.drawInRect(CGRect(origin: CGPointZero, size: size))
 
-  // Set the quality level to use when rescaling
-  CGContextSetInterpolationQuality(context, CGInterpolationQuality.High)
-  let flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, newSize.height)
-
-  CGContextConcatCTM(context, flipVertical)
-  // Draw into the context; this scales the image
-  CGContextDrawImage(context, newRect, imageRef)
-
-  let newImageRef = CGBitmapContextCreateImage(context)! as CGImage
-  let newImage = UIImage(CGImage: newImageRef)
-
-  // Get the resized image from the context and a UIImage
+  let newImage = UIGraphicsGetImageFromCurrentImageContext()
   UIGraphicsEndImageContext()
 
   return newImage
