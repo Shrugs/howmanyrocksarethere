@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol RockProfileControllerDelegate {
+  func shouldClose()
+}
+
 class RockProfileController: UIViewController {
+
+  var delegate : RockProfileControllerDelegate?
 
   let profile = RockProfile()
   var rock : [String: AnyObject]!
@@ -24,6 +30,19 @@ class RockProfileController: UIViewController {
     return button
   }()
 
+  lazy var closeButton : UIButton = { [unowned self] in
+    let button = UIButton(type: .Custom)
+    button.setImage(UIImage(named: "ic_close"), forState: .Normal)
+    button.addTarget(self, action: #selector(close), forControlEvents: .TouchUpInside)
+    return button
+  }()
+
+  lazy var statusView : UIView = {
+    let view = UIView()
+    view.backgroundColor = Constants.Color.White
+    return view
+  }()
+
   convenience init(rock: [String: AnyObject]) {
     self.init(nibName: nil, bundle: nil)
 
@@ -35,10 +54,17 @@ class RockProfileController: UIViewController {
 
     view.backgroundColor = Constants.Color.AltBackground
 
+    view.addSubview(statusView)
+    statusView.snp_makeConstraints { make in
+      make.top.left.right.equalTo(view)
+      make.height.equalTo(20)
+    }
+
     profile.setRock(self.rock)
     view.addSubview(profile)
     profile.snp_makeConstraints { make in
-      make.top.left.right.equalTo(view)
+      make.left.right.equalTo(view)
+      make.top.equalTo(statusView.snp_bottom)
       make.height.equalTo(view.snp_width).multipliedBy(1.55)
     }
 
@@ -48,6 +74,17 @@ class RockProfileController: UIViewController {
       make.left.right.equalTo(view)
       make.bottom.equalTo(view)
     }
+
+    view.addSubview(closeButton)
+    closeButton.snp_makeConstraints { make in
+      make.top.equalTo(profile).offset(5)
+      make.left.equalTo(profile).offset(5)
+      make.width.height.equalTo(40)
+    }
+  }
+
+  func close() {
+    delegate?.shouldClose()
   }
 
   func discover() {

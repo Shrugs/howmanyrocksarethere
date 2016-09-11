@@ -44,7 +44,14 @@ class SubmitRockFlowController: UINavigationController {
 
   func showProfile(rock: [String: AnyObject]) {
     let profile = RockProfileController(rock: rock)
+    profile.delegate = self
     self.pushViewController(profile, animated: true)
+  }
+}
+
+extension SubmitRockFlowController : RockProfileControllerDelegate {
+  func shouldClose() {
+    cDelegate?.shouldClose()
   }
 }
 
