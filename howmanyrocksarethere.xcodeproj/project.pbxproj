@@ -10,6 +10,8 @@
 		C936EB9E1D85E609006DBEC5 /* ValidRockController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936EB9D1D85E609006DBEC5 /* ValidRockController.swift */; };
 		C936EBA01D85E743006DBEC5 /* NSTimer+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936EB9F1D85E743006DBEC5 /* NSTimer+Swift.swift */; };
 		C936EBA21D85E923006DBEC5 /* InvalidRockController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936EBA11D85E923006DBEC5 /* InvalidRockController.swift */; };
+		C936EBA41D85F274006DBEC5 /* RockMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936EBA31D85F274006DBEC5 /* RockMapViewController.swift */; };
+		C936EBA61D85F864006DBEC5 /* RockAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936EBA51D85F864006DBEC5 /* RockAnnotation.swift */; };
 		C9F82B211D8483CF00608689 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B201D8483CF00608689 /* AppDelegate.swift */; };
 		C9F82B231D8483CF00608689 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B221D8483CF00608689 /* ViewController.swift */; };
 		C9F82B281D8483CF00608689 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F82B271D8483CF00608689 /* Assets.xcassets */; };
@@ -46,6 +48,8 @@
 		C936EB9D1D85E609006DBEC5 /* ValidRockController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidRockController.swift; sourceTree = "<group>"; };
 		C936EB9F1D85E743006DBEC5 /* NSTimer+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTimer+Swift.swift"; sourceTree = "<group>"; };
 		C936EBA11D85E923006DBEC5 /* InvalidRockController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvalidRockController.swift; sourceTree = "<group>"; };
+		C936EBA31D85F274006DBEC5 /* RockMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RockMapViewController.swift; sourceTree = "<group>"; };
+		C936EBA51D85F864006DBEC5 /* RockAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RockAnnotation.swift; sourceTree = "<group>"; };
 		C9F82B1D1D8483CF00608689 /* howmanyrocksarethere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = howmanyrocksarethere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F82B201D8483CF00608689 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9F82B221D8483CF00608689 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 				C9F82B531D8509A100608689 /* AWSS3.framework */,
 				C9F82B201D8483CF00608689 /* AppDelegate.swift */,
 				C9F82B221D8483CF00608689 /* ViewController.swift */,
+				C936EBA31D85F274006DBEC5 /* RockMapViewController.swift */,
 				C9F82B3F1D8490F700608689 /* FeedViewController.swift */,
 				C9F82B4B1D84F9B500608689 /* FeedHeader.swift */,
 				C9F82B491D84CC8A00608689 /* FeedItem.swift */,
@@ -141,6 +146,7 @@
 				C9F82B5A1D85A59700608689 /* UIImage+Gif.swift */,
 				C9F82B5C1D85B02200608689 /* LoginViewController.swift */,
 				C936EB9F1D85E743006DBEC5 /* NSTimer+Swift.swift */,
+				C936EBA51D85F864006DBEC5 /* RockAnnotation.swift */,
 			);
 			path = howmanyrocksarethere;
 			sourceTree = "<group>";
@@ -269,6 +275,7 @@
 				C9F82B211D8483CF00608689 /* AppDelegate.swift in Sources */,
 				C9F82B401D8490F700608689 /* FeedViewController.swift in Sources */,
 				C9F82B4A1D84CC8A00608689 /* FeedItem.swift in Sources */,
+				C936EBA41D85F274006DBEC5 /* RockMapViewController.swift in Sources */,
 				C9F82B591D85A4C800608689 /* LoadingController.swift in Sources */,
 				C9F82B611D85B99300608689 /* PotentialMatch.swift in Sources */,
 				C9F82B421D84927B00608689 /* SubmitRockFlowController.swift in Sources */,
@@ -280,6 +287,7 @@
 				C9F82B501D8503A800608689 /* Env.swift in Sources */,
 				C936EB9E1D85E609006DBEC5 /* ValidRockController.swift in Sources */,
 				C936EBA01D85E743006DBEC5 /* NSTimer+Swift.swift in Sources */,
+				C936EBA61D85F864006DBEC5 /* RockAnnotation.swift in Sources */,
 				C9F82B571D850F8300608689 /* Utils.swift in Sources */,
 				C9F82B781D85D41500608689 /* RockProfileController.swift in Sources */,
 			);

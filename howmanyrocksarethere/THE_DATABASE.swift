@@ -113,12 +113,12 @@ class THE_DATABASE {
   }
 
   func getPotentialRocks(cb: ([[String: AnyObject]]) -> Void) {
-    Alamofire.request(.GET, "\(baseUrl)/rocks")
+    Alamofire.request(.GET, "\(baseUrl)/nearbyrocks")
       .responseJSON { resp in
         switch resp.result {
         case .Success(let JSON):
           let rocks = JSON as! [[String: AnyObject]]
-          cb(Array(rocks.prefix(5)) as [[String: AnyObject]])
+          cb(rocks)
         default:
           print(resp)
         }

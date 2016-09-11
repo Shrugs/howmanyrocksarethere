@@ -44,12 +44,17 @@ class FeedViewController : UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "ic_list"), selectedImage: UIImage(named: "ic_list"))
+    self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+
     view.backgroundColor = Constants.Color.BackgroundColor
 
     view.addSubview(collectionView)
     collectionView.snp_makeConstraints { make in
       make.edges.equalTo(view)
     }
+
+    loadRocks()
   }
 
   func loadRocks() {
@@ -61,9 +66,13 @@ class FeedViewController : UIViewController {
   }
 
   override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
     loadRocks()
   }
 
+  override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    return .LightContent
+  }
 }
 
 extension FeedViewController : UICollectionViewDelegate {
@@ -76,7 +85,7 @@ extension FeedViewController : UICollectionViewDelegateFlowLayout {
   }
 
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: self.view.frame.size.width, height: 100)
+    return CGSize(width: self.view.frame.size.width, height: 120)
   }
 }
 

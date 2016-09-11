@@ -28,7 +28,7 @@ class LoginViewController: UIViewController {
     let button = UIButton(type: .Custom)
     button.backgroundColor = Constants.Color.TintColor
     button.setTitle("Login", forState: .Normal)
-    button.titleLabel?.textColor = Constants.Color.White
+    button.setTitleColor(Constants.Color.White, forState: .Normal)
     button.addTarget(self, action: #selector(login), forControlEvents: .TouchUpInside)
     return button
   }()
@@ -50,7 +50,7 @@ class LoginViewController: UIViewController {
     label.font = UIFont(name: Constants.Text.BoldFont.Name, size: 20)
     label.textColor = Constants.Color.White
     label.textAlignment = .Center
-    label.text = "HOW MANY ROCKS ARE THERE?"
+    label.text = "HOW MANY ROCKS ARE THERE"
     label.numberOfLines = 2
 
     view.addSubview(label)

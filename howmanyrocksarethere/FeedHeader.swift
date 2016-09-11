@@ -42,7 +42,7 @@ class FeedHeader: UICollectionReusableView {
 
     self.addSubview(titleLabel)
     titleLabel.snp_makeConstraints { make in
-      make.top.equalTo(self)
+      make.top.equalTo(self).offset(20)
       make.left.right.equalTo(self)
       make.height.equalTo(50)
     }

@@ -150,6 +150,35 @@ app.get('/rocks', function(req, res) {
     })
 })
 
+
+app.get('/nearbyrocks', function(req, res) {
+  rocks.find({
+    id: { $in: [ 65, 64, 49, 63 ] }
+  }).sort({ created_at: -1 }).toArray()
+    .then(function(rocks) {
+      // for each rock, load the user
+      Promise
+        .all(rocks.map(function(rock) {
+          if (!rock.owner_id) {
+            return rock
+          }
+          // fuck performance lol
+          return users.findOne({
+            _id: ObjectID(rock.owner_id)
+          })
+          .then(function(user) {
+            return Object.assign(rock, {
+              owner: user
+            })
+          })
+        }))
+        .then(function(rocks) {
+          res.json(rocks)
+        })
+    })
+})
+
+
 app.get('/notrocks', function(req, res) {
   notrocks.find({}).sort({ created_at: -1 }).toArray()
     .then(function(notrocks) {
