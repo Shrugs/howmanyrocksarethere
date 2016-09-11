@@ -36,6 +36,7 @@
 		C9F82B631D85BB3D00608689 /* PotentialMatchCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B621D85BB3D00608689 /* PotentialMatchCollectionView.swift */; };
 		C9F82B661D85BD1300608689 /* UniqueRockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B651D85BD1300608689 /* UniqueRockButton.swift */; };
 		C9F82B681D85BFC900608689 /* PotentialMatchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B671D85BFC900608689 /* PotentialMatchHeader.swift */; };
+		C9F82B781D85D41500608689 /* RockProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B771D85D41500608689 /* RockProfileController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		C9F82B621D85BB3D00608689 /* PotentialMatchCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PotentialMatchCollectionView.swift; sourceTree = "<group>"; };
 		C9F82B651D85BD1300608689 /* UniqueRockButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniqueRockButton.swift; sourceTree = "<group>"; };
 		C9F82B671D85BFC900608689 /* PotentialMatchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PotentialMatchHeader.swift; sourceTree = "<group>"; };
+		C9F82B771D85D41500608689 /* RockProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RockProfileController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 				C9F82B601D85B99300608689 /* PotentialMatch.swift */,
 				C9F82B651D85BD1300608689 /* UniqueRockButton.swift */,
 				C9F82B671D85BFC900608689 /* PotentialMatchHeader.swift */,
+				C9F82B771D85D41500608689 /* RockProfileController.swift */,
 			);
 			name = "Submit Rock Flow";
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				C9F82B3E1D848EEE00608689 /* Constants.swift in Sources */,
 				C9F82B501D8503A800608689 /* Env.swift in Sources */,
 				C9F82B571D850F8300608689 /* Utils.swift in Sources */,
+				C9F82B781D85D41500608689 /* RockProfileController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

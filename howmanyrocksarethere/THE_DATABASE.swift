@@ -107,4 +107,50 @@ class THE_DATABASE {
         }
     }
   }
+
+  func discoverRock(rockId: String, cb: ([String: AnyObject]) -> Void) {
+    Alamofire.request(.POST, "\(baseUrl)/rock/\(rockId)/discover", headers: [
+      "Authorization": "Token token=\(self.token ?? "")",
+      "Accept": "application/json"
+    ], encoding: .JSON)
+      .responseJSON { resp in
+        switch resp.result {
+        case .Success(let JSON):
+          cb(JSON as! [String: AnyObject])
+        default:
+          debugPrint(resp)
+        }
+    }
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -238,6 +238,28 @@ app.post('/notrocks', function(req, res) {
     // @TODO(shrugs) - post new count to twitter
 })
 
+app.post('/rock/:id/discover', function(req, res) {
+  rocks.findAndModify({
+    query: { _id: ObjectID(req.params.id) },
+    update: { $set: { owner_id: req.user._id } },
+    new: true
+  })
+  .then(function(ret) {
+    var rock = ret.value
+    return users.findOne({
+      _id: ObjectID(rock.owner_id)
+    })
+    .then(function(user) {
+      return Object.assign(rock, {
+        owner: user
+      })
+    })
+  })
+  .then(function(rock) {
+    res.json(rock);
+  })
+})
+
 app.post('/rock/:id/upvote', function(req, res) {
   // @TODO(shrugs) upvote a rock
   rocks.findAndModify({

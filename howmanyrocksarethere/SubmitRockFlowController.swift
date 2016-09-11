@@ -43,7 +43,8 @@ class SubmitRockFlowController: UINavigationController {
   }
 
   func showProfile(rock: [String: AnyObject]) {
-    
+    let profile = RockProfileController(rock: rock)
+    self.pushViewController(profile, animated: true)
   }
 }
 
