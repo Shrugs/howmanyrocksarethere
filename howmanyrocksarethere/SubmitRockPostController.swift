@@ -9,6 +9,7 @@
 import UIKit
 import TextFieldEffects
 import AWSS3
+import CoreLocation
 
 let TEXT_FIELD_OFFSET = 10
 let TEXT_FIELD_HEIGHT = 60
@@ -28,6 +29,10 @@ class SubmitRockPostController : UIViewController {
   }()
   let container = UIScrollView()
   let content = UIView()
+
+  var location : CLLocationCoordinate2D?
+
+  let locationManager = CLLocationManager()
 
   let requiredFields : UILabel = {
     let label = UILabel()
@@ -57,6 +62,11 @@ class SubmitRockPostController : UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    locationManager.delegate = self
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    locationManager.distanceFilter = kCLDistanceFilterNone
+    locationManager.requestWhenInUseAuthorization()
 
     setupDismissHandler()
 
@@ -119,7 +129,7 @@ class SubmitRockPostController : UIViewController {
     presentViewController(loading, animated: false, completion: nil)
 
     let path : String = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("image.png")
-    let resizedImage = resizeImage(image, newSize: CGSize(width: 256, height: 256))
+    let resizedImage = resizeImage(image, newSize: CGSize(width: 128, height: 128))
     UIImagePNGRepresentation(resizedImage)!.writeToFile(path as String, atomically: true)
 
     let key = "\(randomAlphaNumericString(10)).png"
@@ -143,7 +153,7 @@ class SubmitRockPostController : UIViewController {
 
     let transferManager : AWSS3TransferManager = AWSS3TransferManager.defaultS3TransferManager()
     // start the upload
-    transferManager.upload(uploadRequest).continueWithBlock { (task) -> AnyObject? in
+    transferManager.upload(uploadRequest).continueWithBlock { [weak self] (task) -> AnyObject? in
       // once the uploadmanager finishes check if there were any errors
       if (task.error != nil) {
         print(task.error)
@@ -152,17 +162,19 @@ class SubmitRockPostController : UIViewController {
 
       let imageUrl = s3Url(key)
 
-      THE_DATABASE.sharedDatabase.submitRock([
-        "lat": 72.00,
-        "lng": 93.0,
+      let params : [String: AnyObject] = [
+        "lat": self?.location?.latitude ?? 40.739415,
+        "lng": self?.location?.longitude ?? -73.989686,
         "image": imageUrl,
-        "nickname": self.nicknameField.text ?? "",
-        "comment": self.notesField.text ?? ""
-      ]) {
+        "nickname": self?.nicknameField.text ?? "",
+        "comment": self?.notesField.text ?? ""
+      ]
+
+      THE_DATABASE.sharedDatabase.submitRock(params) {
         // assume success
         // @TODO(shrugs) remove loading view here
-        self.dismissViewControllerAnimated(false) { [unowned self] in
-          self.delegate?.didFinish()
+        self?.dismissViewControllerAnimated(false) {
+          self?.delegate?.didFinish()
         }
       }
       return nil
@@ -205,6 +217,7 @@ class SubmitRockPostController : UIViewController {
 
   override func viewWillDisappear(animated: Bool) {
     unlistenToKeyboard()
+    locationManager.stopUpdatingLocation()
   }
 
   override func viewWillAppear(animated: Bool) {
@@ -225,3 +238,44 @@ class SubmitRockPostController : UIViewController {
     return true
   }
 }
+
+extension SubmitRockPostController : CLLocationManagerDelegate {
+
+  func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    locationManager.startUpdatingLocation()
+  }
+  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    if let loc = locations.first {
+      self.location = loc.coordinate
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
