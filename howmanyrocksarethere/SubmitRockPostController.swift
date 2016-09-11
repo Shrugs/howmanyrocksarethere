@@ -115,8 +115,12 @@ class SubmitRockPostController : UIViewController {
     // exit loading indicator
     // trigger delegate close method
 
+    let loading = LoadingController()
+    presentViewController(loading, animated: false, completion: nil)
+
     let path : String = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("image.png")
-    UIImagePNGRepresentation(image)!.writeToFile(path as String, atomically: true)
+    let resizedImage = resizeImage(image, newSize: CGSize(width: 256, height: 256))
+    UIImagePNGRepresentation(resizedImage)!.writeToFile(path as String, atomically: true)
 
     let key = "\(randomAlphaNumericString(10)).png"
 
@@ -157,7 +161,9 @@ class SubmitRockPostController : UIViewController {
       ]) {
         // assume success
         // @TODO(shrugs) remove loading view here
-        self.delegate?.didFinish()
+        self.dismissViewControllerAnimated(false) { [unowned self] in
+          self.delegate?.didFinish()
+        }
       }
       return nil
     }

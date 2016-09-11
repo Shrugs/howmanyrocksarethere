@@ -64,7 +64,6 @@ class ViewController: UIViewController {
       make.bottom.equalTo(tabBar.snp_top)
     }
     feed.didMoveToParentViewController(self)
-
   }
 
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
