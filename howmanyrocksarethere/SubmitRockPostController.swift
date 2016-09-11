@@ -8,7 +8,6 @@
 
 import UIKit
 import TextFieldEffects
-import AWSS3
 import CoreLocation
 
 let TEXT_FIELD_OFFSET = 10
@@ -19,6 +18,8 @@ protocol SubmitRockPostControllerDelegate {
 }
 
 class SubmitRockPostController : UIViewController {
+
+  var isFirstRun = true
 
   var image : UIImage!
   lazy var nicknameField : UITextField = { [unowned self] in
@@ -54,10 +55,13 @@ class SubmitRockPostController : UIViewController {
 
   var delegate : SubmitRockPostControllerDelegate?
 
-  convenience init(image: UIImage) {
+  var imageUrl : String!
+
+  convenience init(image: UIImage, url: String) {
     self.init(nibName: nil, bundle: nil)
 
     self.image = image
+    self.imageUrl = url
   }
 
   override func viewDidLoad() {
@@ -113,7 +117,7 @@ class SubmitRockPostController : UIViewController {
 
     content.addSubview(requiredFields)
     requiredFields.snp_makeConstraints { make in
-      make.top.equalTo(notesField.snp_bottom).offset(25)
+      make.top.equalTo(notesField.snp_bottom).offset(5)
       make.left.right.equalTo(content)
       make.bottom.equalTo(continueButton.snp_top)
     }
@@ -125,59 +129,20 @@ class SubmitRockPostController : UIViewController {
     // exit loading indicator
     // trigger delegate close method
 
-    let loading = LoadingController()
-    presentViewController(loading, animated: false, completion: nil)
+    let params : [String: AnyObject] = [
+      "lat": self.location?.latitude ?? 40.739415,
+      "lng": self.location?.longitude ?? -73.989686,
+      "image": imageUrl,
+      "nickname": self.nicknameField.text ?? "",
+      "comment": self.notesField.text ?? ""
+    ]
 
-    let path : String = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("image.png")
-    let resizedImage = resizeImage(image, newSize: CGSize(width: 128, height: 128))
-    UIImagePNGRepresentation(resizedImage)!.writeToFile(path as String, atomically: true)
-
-    let key = "\(randomAlphaNumericString(10)).png"
-
-    let url : NSURL = NSURL(fileURLWithPath: path)
-    let uploadRequest = AWSS3TransferManagerUploadRequest()
-    uploadRequest.bucket = AWS.S3.BucketName
-    uploadRequest.ACL = .PublicRead
-    uploadRequest.key = key
-    uploadRequest.contentType = "image/png"
-    uploadRequest.body = url
-
-//    uploadRequest.uploadProgress = {[unowned self] (bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) in
-//      dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-//        // @TODO(shrugs) update UI with progress
-////        self.amountUploaded = totalBytesSent
-////        self.filesize = totalBytesExpectedToSend;
-////        self.update()
-//      })
-//    }
-
-    let transferManager : AWSS3TransferManager = AWSS3TransferManager.defaultS3TransferManager()
-    // start the upload
-    transferManager.upload(uploadRequest).continueWithBlock { [weak self] (task) -> AnyObject? in
-      // once the uploadmanager finishes check if there were any errors
-      if (task.error != nil) {
-        print(task.error)
-        return nil
+    THE_DATABASE.sharedDatabase.submitRock(params) { [weak self] in
+      // assume success
+      // @TODO(shrugs) remove loading view here
+      self?.dismissViewControllerAnimated(false) {
+        self?.delegate?.didFinish()
       }
-
-      let imageUrl = s3Url(key)
-
-      let params : [String: AnyObject] = [
-        "lat": self?.location?.latitude ?? 40.739415,
-        "lng": self?.location?.longitude ?? -73.989686,
-        "image": imageUrl,
-        "nickname": self?.nicknameField.text ?? "",
-        "comment": self?.notesField.text ?? ""
-      ]
-
-      THE_DATABASE.sharedDatabase.submitRock(params) {
-        // assume success
-        // @TODO(shrugs) remove loading view here
-        self?.dismissViewControllerAnimated(false) {
-          self?.delegate?.didFinish()
-        }
-      }
-      return nil
     }
 
   }
@@ -222,6 +187,19 @@ class SubmitRockPostController : UIViewController {
 
   override func viewWillAppear(animated: Bool) {
     listenToKeyboard()
+  }
+
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    if (isFirstRun) {
+      isFirstRun = false
+
+      presentViewController(ValidRockController(), animated: false, completion: nil)
+      NSTimer.schedule(delay: 5.0) { [weak self] timer in
+        self?.dismissViewControllerAnimated(true, completion: nil)
+      }
+    }
+    
   }
 
   func newTextField(placeholder: String) -> YokoTextField {

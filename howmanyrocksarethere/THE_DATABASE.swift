@@ -8,6 +8,8 @@
 
 import Alamofire
 
+let PROB_THRESH = 0.4
+
 class THE_DATABASE {
 
   static let sharedDatabase = THE_DATABASE()
@@ -82,6 +84,21 @@ class THE_DATABASE {
     }
   }
 
+  func submitNotRock(params: [String: AnyObject], cb: () -> Void) {
+    Alamofire.request(.POST, "\(baseUrl)/notrocks", headers: [
+      "Authorization": "Token token=\(self.token ?? "")",
+      "Accept": "application/json"
+    ], parameters: params, encoding: .JSON)
+      .responseJSON { resp in
+        switch resp.result {
+        case .Success:
+          cb()
+        default:
+          debugPrint(resp)
+        }
+    }
+  }
+
   func getRocks(cb: ([[String: AnyObject]]) -> Void) {
     Alamofire.request(.GET, "\(baseUrl)/rocks")
       .responseJSON { resp in
@@ -120,6 +137,33 @@ class THE_DATABASE {
         default:
           debugPrint(resp)
         }
+    }
+  }
+
+  func isRock(imageUrl: String, cb: (Bool) -> Void) {
+    Alamofire.request(.GET, "https://api.clarifai.com/v1/tag", parameters: [
+      "access_token": self.clarifaiAuthToken!,
+      "url": imageUrl,
+      "select_classes": "rock"
+    ])
+    .responseJSON { resp in
+      switch resp.result {
+      case .Success(let JSON):
+        let results = (JSON as! [String: AnyObject])["results"] as! [[String: AnyObject]]
+        let result = results.first!["result"] as! [String: AnyObject]
+        print(result)
+        let probs = (result["tag"] as! [String: AnyObject])["probs"] as! [Double]
+        // if any of the probs are > 0.4, call it a rock
+        for prob in probs {
+          if prob > PROB_THRESH {
+            cb(true)
+            return
+          }
+        }
+        cb(false)
+      default:
+        debugPrint(resp)
+      }
     }
   }
 }

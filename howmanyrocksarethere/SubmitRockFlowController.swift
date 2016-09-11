@@ -49,6 +49,19 @@ class SubmitRockFlowController: UINavigationController {
   }
 }
 
+extension SubmitRockFlowController : IsThisARockControllerDelegate {
+  func isRock(image: UIImage, url: String) {
+    // if this is a rock, post it
+    let submitPostController = SubmitRockPostController(image: image, url: url)
+    submitPostController.delegate = self
+    self.pushViewController(submitPostController, animated: false)
+  }
+
+  func isNotRock(image: UIImage, url: String) {
+    self.pushViewController(InValidRockController(url: url), animated: true)
+  }
+}
+
 extension SubmitRockFlowController : RockProfileControllerDelegate {
   func shouldClose() {
     cDelegate?.shouldClose()
@@ -71,10 +84,10 @@ extension SubmitRockFlowController : FusumaDelegate {
     if mode == FusumaMode.Camera.rawValue {
       UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
     }
-    // @TODO(shrugs) move to the next view with UIImage
-    let submitPostController = SubmitRockPostController(image: image)
-    submitPostController.delegate = self
-    self.pushViewController(submitPostController, animated: true)
+    // determine if is rock
+    let isRockController = IsThisARockController(image: image)
+    isRockController.delegate = self
+    self.pushViewController(isRockController, animated: true)
   }
 
   func fusumaClosed(fusuma: FusumaViewController) {

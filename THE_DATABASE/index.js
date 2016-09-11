@@ -223,8 +223,6 @@ app.post('/notrocks', function(req, res) {
         lat: req.body.lat,
         lng: req.body.lng,
         image: req.body.image,
-        nickname: req.body.nickname,
-        comment: req.body.comment,
         upvotes: 0,
         downvotes: 0,
         created_at: new Date()
