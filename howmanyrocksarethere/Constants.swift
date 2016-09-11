@@ -10,6 +10,11 @@ import UIKit
 
 struct Constants {
 
+  struct Clarifai {
+    static var ClientId = "0NARCHSIJivBGpqAQyx45AlAaFNAlGndxGDbkNra"
+    static var ClientSecret = "t418vHcAf50jMfU2ST95yWH_7t7FVz1w9RVVeip4"
+  }
+
   struct Text {
     struct Font {
       static var Size : CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 22 : 30

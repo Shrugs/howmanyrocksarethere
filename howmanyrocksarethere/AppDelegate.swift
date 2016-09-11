@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AWSCore
+import AWSS3
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,9 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window.makeKeyAndVisible()
 
     // Appearance
-
     UITabBar.appearance().tintColor = Constants.Color.TintColor
     UITabBar.appearance().barTintColor = Constants.Color.BackgroundColor
+
+    // refresh clarifai access token
+    THE_DATABASE.sharedDatabase.refreshClarifaiAccessToken()
+
+    let credentialsProvider = AWSStaticCredentialsProvider(accessKey: AWS.AccessKey, secretKey: AWS.SecretKey)
+    let configuration = AWSServiceConfiguration(
+      region: .USWest1,
+      credentialsProvider: credentialsProvider)
+    AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
 
     return true
   }

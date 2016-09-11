@@ -57,7 +57,6 @@ class FeedViewController : UIViewController {
       self?.rocks = rocks
       self?.collectionView.reloadData()
       self?.refreshControl.endRefreshing()
-      print(rocks)
     }
   }
 

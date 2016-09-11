@@ -24,6 +24,10 @@
 		C9F82B4A1D84CC8A00608689 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B491D84CC8A00608689 /* FeedItem.swift */; };
 		C9F82B4C1D84F9B500608689 /* FeedHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B4B1D84F9B500608689 /* FeedHeader.swift */; };
 		C9F82B4E1D85010D00608689 /* IsThisARockController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B4D1D85010D00608689 /* IsThisARockController.swift */; };
+		C9F82B501D8503A800608689 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B4F1D8503A800608689 /* Env.swift */; };
+		C9F82B541D8509A100608689 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F82B521D8509A100608689 /* AWSCore.framework */; };
+		C9F82B551D8509A100608689 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F82B531D8509A100608689 /* AWSS3.framework */; };
+		C9F82B571D850F8300608689 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B561D850F8300608689 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +50,10 @@
 		C9F82B491D84CC8A00608689 /* FeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		C9F82B4B1D84F9B500608689 /* FeedHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedHeader.swift; sourceTree = "<group>"; };
 		C9F82B4D1D85010D00608689 /* IsThisARockController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsThisARockController.swift; sourceTree = "<group>"; };
+		C9F82B4F1D8503A800608689 /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
+		C9F82B521D8509A100608689 /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCore.framework; path = Carthage/Build/iOS/AWSCore.framework; sourceTree = SOURCE_ROOT; };
+		C9F82B531D8509A100608689 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = Carthage/Build/iOS/AWSS3.framework; sourceTree = SOURCE_ROOT; };
+		C9F82B561D850F8300608689 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +64,10 @@
 				C9F82B391D84891100608689 /* SnapKit.framework in Frameworks */,
 				C9F82B371D84891100608689 /* Alamofire.framework in Frameworks */,
 				C9F82B381D84891100608689 /* Fusuma.framework in Frameworks */,
+				C9F82B551D8509A100608689 /* AWSS3.framework in Frameworks */,
 				C9F82B461D849A8400608689 /* TextFieldEffects.framework in Frameworks */,
 				C9F82B3A1D84891100608689 /* WebImage.framework in Frameworks */,
+				C9F82B541D8509A100608689 /* AWSCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +98,8 @@
 				C9F82B351D84891100608689 /* SnapKit.framework */,
 				C9F82B361D84891100608689 /* WebImage.framework */,
 				C9F82B451D849A8400608689 /* TextFieldEffects.framework */,
+				C9F82B521D8509A100608689 /* AWSCore.framework */,
+				C9F82B531D8509A100608689 /* AWSS3.framework */,
 				C9F82B201D8483CF00608689 /* AppDelegate.swift */,
 				C9F82B221D8483CF00608689 /* ViewController.swift */,
 				C9F82B3F1D8490F700608689 /* FeedViewController.swift */,
@@ -101,6 +113,8 @@
 				C9F82B2C1D8483CF00608689 /* Info.plist */,
 				C9F82B3D1D848EEE00608689 /* Constants.swift */,
 				C9F82B471D84C82300608689 /* THE_DATABASE.swift */,
+				C9F82B4F1D8503A800608689 /* Env.swift */,
+				C9F82B561D850F8300608689 /* Utils.swift */,
 			);
 			path = howmanyrocksarethere;
 			sourceTree = "<group>";
@@ -183,6 +197,8 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Fusuma.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/TextFieldEffects.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AWSCore.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AWSS3.framework",
 			);
 			outputPaths = (
 			);
@@ -207,6 +223,8 @@
 				C9F82B421D84927B00608689 /* SubmitRockFlowController.swift in Sources */,
 				C9F82B481D84C82300608689 /* THE_DATABASE.swift in Sources */,
 				C9F82B3E1D848EEE00608689 /* Constants.swift in Sources */,
+				C9F82B501D8503A800608689 /* Env.swift in Sources */,
+				C9F82B571D850F8300608689 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

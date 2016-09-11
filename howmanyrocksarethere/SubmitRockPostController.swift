@@ -8,6 +8,7 @@
 
 import UIKit
 import TextFieldEffects
+import AWSS3
 
 let TEXT_FIELD_OFFSET = 10
 let TEXT_FIELD_HEIGHT = 60
@@ -113,6 +114,45 @@ class SubmitRockPostController : UIViewController {
     // start request to submit the rock
     // exit loading indicator
     // trigger delegate close method
+
+    let path : String = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("image.png")
+    UIImagePNGRepresentation(image)!.writeToFile(path as String, atomically: true)
+
+    let key = "\(randomAlphaNumericString(10)).png"
+
+    let url : NSURL = NSURL(fileURLWithPath: path)
+    let uploadRequest = AWSS3TransferManagerUploadRequest()
+    uploadRequest.bucket = AWS.S3.BucketName
+    uploadRequest.ACL = .PublicRead
+    uploadRequest.key = key
+    uploadRequest.contentType = "image/png"
+    uploadRequest.body = url
+
+    uploadRequest.uploadProgress = {[unowned self] (bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) in
+      dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+        // @TODO(shrugs) update UI with progress
+//        self.amountUploaded = totalBytesSent
+//        self.filesize = totalBytesExpectedToSend;
+//        self.update()
+      })
+    }
+
+    let transferManager : AWSS3TransferManager = AWSS3TransferManager.defaultS3TransferManager()
+    // start the upload
+    transferManager.upload(uploadRequest).continueWithBlock { (task) -> AnyObject? in
+      // once the uploadmanager finishes check if there were any errors
+      if (task.error != nil) {
+        print(task.error)
+      } else {
+        print(s3Url(key))
+      }
+
+      // @TODO(shrugs) now use this url and submit the rock to the database
+
+        // @TODO(shrugs) remove loading view here
+      return nil
+    }
+
   }
 
   func setupDismissHandler() {
