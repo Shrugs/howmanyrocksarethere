@@ -11,10 +11,11 @@ import MapKit
 
 class RockMapViewController: UIViewController {
 
-  let mapView : MKMapView = {
+  lazy var mapView : MKMapView = { [unowned self] in
     let mapView = MKMapView()
     mapView.showsUserLocation = true
     mapView.userTrackingMode = .Follow
+    mapView.delegate = self
     return mapView
   }()
 
@@ -75,7 +76,23 @@ class RockMapViewController: UIViewController {
   }
 }
 
+extension RockMapViewController : MKMapViewDelegate {
+  func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
 
+    var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("demo")
+    if annotationView == nil {
+      annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "demo")
+      annotationView!.canShowCallout = true
+    } else {
+      annotationView!.annotation = annotation
+    }
+
+    annotationView!.image = UIImage(named: "maprock")
+
+    return annotationView
+
+  }
+}
 
 
 
