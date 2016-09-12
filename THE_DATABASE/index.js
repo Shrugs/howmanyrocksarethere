@@ -9,11 +9,9 @@ var ObjectID = pmongo.ObjectId
 var crypto = require('crypto')
 var images = require('./images')
 
-var dbHost = process.env.MONGO_HOST || 'localhost'
-var dbPort = process.env.MONGO_PORT || '27017'
-var dbName = process.env.MONGO_DATABASE_NAME || 'howmanyrocks'
+console.log(process.env.MONGODB_URI)
 
-var db = pmongo(dbHost + ':' + dbPort + '/' + dbName, ['counters', 'rocks', 'users'])
+var db = pmongo(process.env.MONGODB_URI || 'mongodb://localhost:27017/howmanyrocks', ['counters', 'rocks', 'users'])
 var counters = db.collection('counters')
 var rocks = db.collection('rocks')
 var notrocks = db.collection('notrocks')
