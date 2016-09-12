@@ -107,11 +107,16 @@ class RockProfile: UIView {
     columnLabels.enumerate().forEach { (i, label) in
       label.snp_makeConstraints { make in
         make.left.equalTo(self)
-        make.width.equalTo(self.snp_width).multipliedBy(0.4)
-        make.height.equalTo(16)
+        make.width.equalTo(self.snp_width).multipliedBy(0.3)
+
+        if (i == columnLabels.count - 1) {
+          make.height.equalTo(40)
+        } else {
+          make.height.equalTo(16)
+        }
 
         if (i == 0) {
-          make.top.equalTo(ownerView.snp_bottom).offset(5)
+          make.top.equalTo(ownerView.snp_bottom).offset(10)
         } else {
           make.top.equalTo(columnLabels[i - 1].snp_bottom).offset(5)
         }
@@ -124,7 +129,7 @@ class RockProfile: UIView {
       label.snp_makeConstraints { make in
         make.top.bottom.equalTo(colLabel)
         make.left.equalTo(colLabel.snp_right).offset(10)
-        make.right.equalTo(self)
+        make.right.equalTo(self).offset(-10)
       }
       return label
     })
@@ -137,7 +142,7 @@ class RockProfile: UIView {
   func newColumnLabel() -> UILabel {
     let label = UILabel()
 
-    label.font = UIFont(name: Constants.Text.TitleFont.Name, size: 14)
+    label.font = UIFont(name: Constants.Text.TitleFont.Name, size: 16)
     label.textColor = .grayColor()
     label.textAlignment = .Right
 
@@ -147,9 +152,10 @@ class RockProfile: UIView {
   func newAnswerLabel() -> UILabel {
     let label = UILabel()
 
-    label.font = UIFont(name: Constants.Text.TitleFont.Name, size: 14)
+    label.font = UIFont(name: Constants.Text.TitleFont.Name, size: 16)
     label.textColor = .blackColor()
     label.textAlignment = .Left
+    label.numberOfLines = 3
     
     return label
   }

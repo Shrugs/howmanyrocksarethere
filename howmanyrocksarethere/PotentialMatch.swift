@@ -23,8 +23,9 @@ class PotentialMatch: UICollectionViewCell {
   lazy var myRockButton : UIButton = {
     let button = UIButton(type: .Custom)
     button.backgroundColor = Constants.Color.TintColor
+    button.titleLabel?.font = UIFont(name: Constants.Text.BoldFont.Name, size: Constants.Text.BoldFont.Size)
     button.setTitle("YES", forState: .Normal)
-    button.titleLabel?.textColor = Constants.Color.White
+    button.setTitleColor(Constants.Color.White, forState: .Normal)
     button.addTarget(self, action: #selector(chooseRock), forControlEvents: .TouchUpInside)
     return button
   }()
@@ -48,7 +49,7 @@ class PotentialMatch: UICollectionViewCell {
     self.addSubview(profile)
     profile.snp_makeConstraints { make in
       make.top.left.right.equalTo(self)
-      make.height.equalTo(self.snp_width).multipliedBy(1.55)
+      make.height.equalTo(self.snp_width).multipliedBy(1.60)
     }
 
     self.addSubview(label)

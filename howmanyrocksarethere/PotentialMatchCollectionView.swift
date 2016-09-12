@@ -69,10 +69,14 @@ extension PotentialMatchCollectionView : UICollectionViewDelegate {
 extension PotentialMatchCollectionView : UICollectionViewDelegateFlowLayout {
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
     let width = self.view.frame.size.width
-    return CGSize(width: width, height: width * 1.55 + 150)
+    return CGSize(width: width, height: width * 1.60 + 150)
   }
 
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+    if self.rocks.count == 0 {
+      return CGSize(width: self.view.frame.size.width, height: 0)
+    }
+    
     return CGSize(width: self.view.frame.size.width, height: 50)
   }
 

@@ -59,7 +59,7 @@ class RockMapViewController: UIViewController {
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
 
-    centerMapOnLocation(CLLocation(latitude: 40.742268, longitude: -73.987988))
+    centerMapOnLocation(CLLocation(latitude: 40.7290453, longitude: -73.9968055))
   }
 
   let regionRadius: CLLocationDistance = 1000

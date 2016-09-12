@@ -24,6 +24,7 @@ class RockProfileController: UIViewController {
   lazy var claimButton : UIButton = { [unowned self] in
     let button = UIButton(type: .Custom)
     button.backgroundColor = Constants.Color.TintColor
+    button.titleLabel?.font = UIFont(name: Constants.Text.BoldFont.Name, size: Constants.Text.BoldFont.Size)
     button.setTitle("Discover Rock ($0.40)", forState: .Normal)
     button.titleLabel?.textColor = Constants.Color.White
     button.addTarget(self, action: #selector(discover), forControlEvents: .TouchUpInside)
@@ -37,12 +38,6 @@ class RockProfileController: UIViewController {
     return button
   }()
 
-  lazy var statusView : UIView = {
-    let view = UIView()
-    view.backgroundColor = Constants.Color.White
-    return view
-  }()
-
   convenience init(rock: [String: AnyObject]) {
     self.init(nibName: nil, bundle: nil)
 
@@ -54,18 +49,11 @@ class RockProfileController: UIViewController {
 
     view.backgroundColor = Constants.Color.AltBackground
 
-    view.addSubview(statusView)
-    statusView.snp_makeConstraints { make in
-      make.top.left.right.equalTo(view)
-      make.height.equalTo(20)
-    }
-
     profile.setRock(self.rock)
     view.addSubview(profile)
     profile.snp_makeConstraints { make in
-      make.left.right.equalTo(view)
-      make.top.equalTo(statusView.snp_bottom)
-      make.height.equalTo(view.snp_width).multipliedBy(1.55)
+      make.top.left.right.equalTo(view)
+      make.height.equalTo(view.snp_width).multipliedBy(1.60)
     }
 
     view.addSubview(claimButton)
@@ -81,6 +69,10 @@ class RockProfileController: UIViewController {
       make.left.equalTo(profile).offset(5)
       make.width.height.equalTo(40)
     }
+  }
+
+  override func prefersStatusBarHidden() -> Bool {
+    return true
   }
 
   func close() {
