@@ -8,6 +8,9 @@
 
 import UIKit
 import WebImage
+import CoreLocation
+import PKHUD
+import SnapKit
 
 let muhCellIdentifier = "potential_cell"
 
@@ -18,9 +21,21 @@ protocol PotentialMatchCollectionDelegate {
 
 class PotentialMatchCollectionView : UIViewController {
 
+  var didGetLocation = false
+  let locationManager = CLLocationManager()
+
   var delegate : PotentialMatchCollectionDelegate?
 
   var rocks = [[String: AnyObject]]()
+
+  lazy var uniqueButton : UIButton = { [unowned self] in
+    let button = UIButton(type: .Custom)
+    button.backgroundColor = Constants.Color.TintColor
+    button.setTitle("MY ROCK IS UNIQUE", forState: .Normal)
+    button.setTitleColor(Constants.Color.White, forState: .Normal)
+    button.addTarget(self, action: #selector(uniqueButtonTapped), forControlEvents: .TouchUpInside)
+    return button
+  }()
 
   lazy var collectionView : UICollectionView = { [unowned self] in
     let layout = UICollectionViewFlowLayout()
@@ -42,6 +57,8 @@ class PotentialMatchCollectionView : UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    locationManager.delegate = self
+
     view.backgroundColor = Constants.Color.BackgroundColor
 
     view.addSubview(collectionView)
@@ -50,15 +67,39 @@ class PotentialMatchCollectionView : UIViewController {
     }
   }
 
-  func loadRocks() {
-    THE_DATABASE.sharedDatabase.getPotentialRocks { [weak self] rocks in
-      self?.rocks = rocks
-      self?.collectionView.reloadData()
+  func loadRocks(location: CLLocation, showHUD: Bool = false) {
+    THE_DATABASE.sharedDatabase.getNearbyRocks(
+      lat: location.coordinate.latitude,
+      lng: location.coordinate.longitude,
+      radius: 50
+    ) { rocks in
+      self.rocks = rocks
+      self.collectionView.reloadData()
+
+      if showHUD {
+        HUD.flash(.Success, delay: 0.3)
+      }
+
+      // if there are no nearby rocks
+      // but a big "my rock is unique"
+
+      self.view.addSubview(self.uniqueButton)
+      self.uniqueButton.snp_makeConstraints { make in
+        make.center.equalTo(self.view)
+        make.width.equalTo(self.view).multipliedBy(0.8)
+        make.height.equalTo(50)
+      }
     }
   }
 
   override func viewDidAppear(animated: Bool) {
-    loadRocks()
+    HUD.show(.Progress)
+
+    locationManager.requestWhenInUseAuthorization()
+  }
+
+  func uniqueButtonTapped() {
+    self.delegate?.didChooseUniqueRock()
   }
 
 }
@@ -101,8 +142,12 @@ extension PotentialMatchCollectionView : UICollectionViewDataSource {
       nCell.delegate = self
       return nCell
     } else {
-      let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "pheader", forIndexPath: indexPath)
-      return cell as! PotentialMatchHeader
+      let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "pheader", forIndexPath: indexPath) as! PotentialMatchHeader
+      cell.label.text = self.rocks.count == 0 ?
+        "NO ROCKS NEAR YOU. YOUR ROCK IS UNIQUE." :
+      "THESE ROCKS HAVE ALREADY BEEN DISCOVERED NEAR YOU."
+
+      return cell
     }
   }
 
@@ -128,6 +173,21 @@ extension PotentialMatchCollectionView : UICollectionViewDataSource {
 
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return .LightContent
+  }
+}
+
+extension PotentialMatchCollectionView : CLLocationManagerDelegate {
+  func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    if (status == .AuthorizedWhenInUse) {
+      locationManager.startUpdatingLocation()
+    }
+  }
+
+  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    if let loc = locations.first where !didGetLocation {
+      didGetLocation = true
+      self.loadRocks(loc, showHUD: true)
+    }
   }
 }
 

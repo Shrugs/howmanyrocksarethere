@@ -144,15 +144,19 @@ class THE_DATABASE {
     }
   }
 
-  func getPotentialRocks(cb: ([[String: AnyObject]]) -> Void) {
-    Alamofire.request(.GET, "\(baseUrl)/nearbyrocks")
+  func getNearbyRocks(lat lat: Double, lng: Double, radius: Int = 20, cb: ([[String: AnyObject]]) -> Void) {
+    Alamofire.request(.GET, "\(baseUrl)/nearbyrocks", parameters: [
+      "lat": lat,
+      "lng": lng,
+      "radius": radius
+    ])
       .responseJSON { resp in
         switch resp.result {
         case .Success(let JSON):
           let rocks = JSON as! [[String: AnyObject]]
           cb(rocks)
         default:
-          print(resp)
+          debugPrint(resp)
         }
     }
   }
@@ -183,7 +187,6 @@ class THE_DATABASE {
       case .Success(let JSON):
         let results = (JSON as! [String: AnyObject])["results"] as! [[String: AnyObject]]
         let result = results.first!["result"] as! [String: AnyObject]
-        print(result)
         let probs = (result["tag"] as! [String: AnyObject])["probs"] as! [Double]
         // if any of the probs are > 0.4, call it a rock
         for prob in probs {
@@ -194,7 +197,7 @@ class THE_DATABASE {
         }
         cb(false)
       default:
-        debugPrint(resp)
+        cb(true)
       }
     }
   }

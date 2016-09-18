@@ -15,7 +15,7 @@ class PotentialMatchHeader: UICollectionReusableView {
     label.font = UIFont(name: Constants.Text.BoldFont.Name, size: 20)
     label.textColor = Constants.Color.White
     label.textAlignment = .Center
-    label.text = "THESE ROCKS HAVE ALREADY BEEN DISCOVERED NEAR YOU."
+    label.text = "FINDING ROCKS NEAR YOU..."
     label.numberOfLines = 2
     return label
   }()

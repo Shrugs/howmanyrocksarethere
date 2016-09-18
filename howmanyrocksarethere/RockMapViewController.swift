@@ -13,6 +13,7 @@ import CoreLocation
 class RockMapViewController: UIViewController {
 
   var hasCentered = false
+  var isFetchingRocks = false
 
   let locationManager = CLLocationManager()
 
@@ -43,8 +44,6 @@ class RockMapViewController: UIViewController {
     mapView.snp_makeConstraints { make in
       make.edges.equalTo(view)
     }
-
-    fetchRocks()
   }
 
   func reloadData() {
@@ -71,8 +70,14 @@ class RockMapViewController: UIViewController {
     mapView.setRegion(coordinateRegion, animated: true)
   }
 
-  func fetchRocks() {
-    THE_DATABASE.sharedDatabase.getRocks(nil) { [weak self] rocks in
+  func fetchRocks(lat lat: Double, lng: Double, radius: Int) {
+    isFetchingRocks = true
+    THE_DATABASE.sharedDatabase.getNearbyRocks(
+      lat: lat,
+      lng: lng,
+      radius: radius
+    ) { [weak self] rocks in
+      self?.isFetchingRocks = false
       self?.rocks = rocks
       self?.reloadData()
     }
@@ -80,6 +85,24 @@ class RockMapViewController: UIViewController {
 }
 
 extension RockMapViewController : MKMapViewDelegate {
+
+  func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    if !isFetchingRocks {
+      let center = mapView.region.center
+      let span = mapView.region.span
+
+      let topRadius = CLLocation(
+        latitude: center.latitude,
+        longitude: center.longitude + (span.longitudeDelta / 2.0)
+      ).distanceFromLocation(CLLocation(latitude: center.latitude, longitude: center.longitude))
+
+      fetchRocks(
+        lat: mapView.region.center.latitude,
+        lng: mapView.region.center.longitude,
+        radius: Int(topRadius)
+      )
+    }
+  }
 
   func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
     if let loc = userLocation.location where !hasCentered {
