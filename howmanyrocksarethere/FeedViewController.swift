@@ -8,10 +8,14 @@
 
 import UIKit
 import WebImage
+import PKHUD
 
 let cellIdentifier = "cell"
 
 class FeedViewController : UIViewController {
+
+  var isLoadingRocks = false
+  var totalRockCount = 0
 
   var rocks = [[String: AnyObject]]()
 
@@ -26,6 +30,7 @@ class FeedViewController : UIViewController {
     let layout = UICollectionViewFlowLayout()
     layout.minimumInteritemSpacing = 0
     layout.minimumLineSpacing = 0
+    layout.sectionHeadersPinToVisibleBounds = true
 
     let collectionView = UICollectionView(frame: CGRectNull, collectionViewLayout: layout)
     collectionView.delaysContentTouches = true
@@ -54,11 +59,17 @@ class FeedViewController : UIViewController {
       make.edges.equalTo(view)
     }
 
-    loadRocks()
+    loadRocks(true)
   }
 
-  func loadRocks() {
-    THE_DATABASE.sharedDatabase.getRocks { [weak self] rocks in
+  func loadRocks(showHUD: Bool = false) {
+    if showHUD {
+      HUD.show(.Progress)
+    }
+    THE_DATABASE.sharedDatabase.getRocks(nil) { [weak self] rocks in
+      if showHUD {
+        HUD.flash(.Success, delay: 0.3)
+      }
       self?.rocks = rocks
       self?.collectionView.reloadData()
       self?.refreshControl.endRefreshing()
@@ -76,6 +87,32 @@ class FeedViewController : UIViewController {
 }
 
 extension FeedViewController : UICollectionViewDelegate {
+
+  func possiblyLoadRocks(scrollView: UIScrollView) {
+    let actualPosition = scrollView.contentOffset.y
+    let contentHeight = scrollView.contentSize.height - 700
+    if actualPosition >= contentHeight && !isLoadingRocks {
+      HUD.show(.Progress)
+      isLoadingRocks = true
+      // reload the data, append to the bottom of self.rocks
+      if let lastRock = self.rocks.last {
+        THE_DATABASE.sharedDatabase.getRocks(lastRock["created_at"] as? String) { (rocks) in
+          HUD.flash(.Success, delay: 0.3)
+          self.isLoadingRocks = false
+          self.rocks.appendContentsOf(rocks)
+          self.collectionView.reloadData()
+        }
+      }
+    }
+  }
+
+  func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+    possiblyLoadRocks(scrollView)
+  }
+
+  func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    possiblyLoadRocks(scrollView)
+  }
 }
 
 extension FeedViewController : UICollectionViewDelegateFlowLayout {
@@ -93,7 +130,15 @@ extension FeedViewController : UICollectionViewDataSource {
 
   func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
     let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! FeedHeader
-    cell.titleLabel.text = "0000000000\(self.rocks.count) rocks"
+    cell.titleLabel.text = "000000000000 rocks"
+
+    cell.titleLabel.text = "\(String(format: "%012d", totalRockCount)) rocks"
+
+    THE_DATABASE.sharedDatabase.getTotalRocks { numRocks in
+      self.totalRockCount = numRocks
+      cell.titleLabel.text = "\(String(format: "%012d", numRocks)) rocks"
+    }
+
     cell.delegate = self
     return cell
   }

@@ -27,7 +27,7 @@ class THE_DATABASE {
 
   var clarifaiAuthToken : String?
 
-  let baseUrl = "http://howmanyrocks.herokuapp.com"
+  let baseUrl = Constants.Urls.Base
 
 
   func refreshClarifaiAccessToken() {
@@ -46,6 +46,21 @@ class THE_DATABASE {
         print("Clarifai Authentication Failed")
         print(resp)
       }
+    }
+  }
+
+  func isValidUsername(username: String, cb: (Bool) -> Void) {
+    Alamofire.request(.GET, "\(baseUrl)/valid-username", parameters: [
+      "username": username
+    ])
+      .responseJSON { resp in
+        switch resp.result {
+        case .Success(let JSON):
+          let rocks = JSON as! [String: Bool]
+          cb(rocks["valid"]!)
+        default:
+          cb(false)
+        }
     }
   }
 
@@ -99,8 +114,12 @@ class THE_DATABASE {
     }
   }
 
-  func getRocks(cb: ([[String: AnyObject]]) -> Void) {
-    Alamofire.request(.GET, "\(baseUrl)/rocks")
+  func getRocks(lastCreatedAt: String?, cb: ([[String: AnyObject]]) -> Void) {
+    var params = [String: String]()
+    if let lastCreatedAt = lastCreatedAt {
+      params["lastCreatedAt"] = lastCreatedAt
+    }
+    Alamofire.request(.GET, "\(baseUrl)/rocks", parameters: params)
       .responseJSON { resp in
         switch resp.result {
         case .Success(let JSON):
@@ -110,6 +129,19 @@ class THE_DATABASE {
            print(resp)
         }
       }
+  }
+
+  func getTotalRocks(cb: (Int) -> Void) {
+    Alamofire.request(.GET, "\(baseUrl)/total-rocks")
+      .responseJSON { resp in
+        switch resp.result {
+        case .Success(let JSON):
+          let rocks = JSON as! [String: Int]
+          cb(rocks["count"] ?? 0)
+        default:
+          cb(0)
+        }
+    }
   }
 
   func getPotentialRocks(cb: ([[String: AnyObject]]) -> Void) {

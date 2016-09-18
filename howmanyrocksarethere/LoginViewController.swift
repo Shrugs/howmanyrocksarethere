@@ -9,6 +9,7 @@
 import UIKit
 import TextFieldEffects
 import PermissionScope
+import PKHUD
 
 protocol LoginViewControllerDelegate {
   func didFinish()
@@ -20,6 +21,8 @@ class LoginViewController: UIViewController {
 
   lazy var usernameField : UITextField = {
     let textField = YokoTextField()
+    textField.autocorrectionType = .No
+    textField.autocapitalizationType = .None
     textField.placeholderColor = Constants.Color.BackgroundColor
     textField.foregroundColor = Constants.Color.BackgroundColor
     textField.placeholder = "USERNAME *"
@@ -110,6 +113,8 @@ class LoginViewController: UIViewController {
                          message: "To find rocks near you.")
     pscope.addPermission(CameraPermission(),
                          message: "To take pictures of rocks you find.")
+    pscope.addPermission(PhotosPermission(),
+                         message: "To save your rock pictures.")
   }
 
   override func viewDidAppear(animated: Bool) {
@@ -123,27 +128,49 @@ class LoginViewController: UIViewController {
   }
 
   func login() {
-    // on login, ask for all of the relevant permissions and then createUser()
-    pscope.show({ finished, results in
-      // assume success
-      for result in results {
-        if result.status != .Authorized {
-          return
-        }
+
+    HUD.show(.Progress)
+
+    // verify valid username
+    THE_DATABASE.sharedDatabase.isValidUsername(usernameField.text ?? "") { isValid in
+      if (!isValid) {
+        HUD.flash(.Error, delay: 0.5)
+        // @TODO(shrugs) - add alert view here
+        self.alert(title: "Invalid Username", message: "This username may be taken. Usernames must be 3+ characters and only consist of letters and numbers.", close: "I'll do better this time.")
+        return
       }
 
-      self.createUser()
-    }, cancelled: { (results) -> Void in
-      self.chastiseUser()
-    })
+      self.dismissKeyboard()
+
+      // ask for all of the relevant permissions and then createUser()
+      self.pscope.show({ finished, results in
+        // assume success
+        for result in results {
+          if result.status != .Authorized {
+            return
+          }
+        }
+
+        self.createUser()
+      }, cancelled: { (results) -> Void in
+          HUD.flash(.Error, delay: 0.5)
+          self.chastiseUser()
+      })
+    }
   }
 
   func chastiseUser() {
+    alert(title: "Whoops!", message: "How Many Rock Are There needs all of these permissions to function!", close: "I'll try again.")
+  }
+
+  func alert(title title: String, message: String, close: String) {
     let alert = UIAlertController(
-      title: "Whoops!",
-      message: "How Many Rock Are There needs all of these permissions to function!",
+      title: title,
+      message: message,
       preferredStyle: .Alert
     )
+
+    alert.addAction(UIAlertAction(title: close, style: .Default, handler: nil))
 
     self.presentViewController(alert, animated: true, completion: nil)
   }
@@ -154,6 +181,7 @@ class LoginViewController: UIViewController {
 
   func createUser() {
     THE_DATABASE.sharedDatabase.createUser(usernameField.text ?? "") {
+      HUD.flash(.Success, delay: 0.5)
       // assume the user is created, lol error handling
       self.delegate?.didFinish()
     }

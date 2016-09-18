@@ -46,8 +46,7 @@ struct Constants {
   }
 
   struct Urls {
-    static var Base = "http://9403e8f8.ngrok.io"
-    static var Upload = "/api/photo/upload"
+    static var Base = "http://cca2b67b.ngrok.io"
   }
   
 }

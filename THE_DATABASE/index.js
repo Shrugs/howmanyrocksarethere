@@ -9,8 +9,6 @@ var ObjectID = pmongo.ObjectId
 var crypto = require('crypto')
 var images = require('./images')
 
-console.log(process.env.MONGODB_URI)
-
 var db = pmongo(
   process.env.MONGODB_URI || 'mongodb://localhost:27017/howmanyrocks',
   { authMechanism: 'ScramSHA1' }
@@ -74,6 +72,11 @@ counters.findOne({ _id: 'notrock_id' })
     }
   })
 
+users.createIndex( { username: 1 }, { unique: true } )
+
+/**
+ * Utilities
+ */
 function getNextId(name) {
   return counters.findAndModify({
       query: { _id: name + '_id' },
@@ -105,6 +108,20 @@ function randomPicture() {
   return images[getRandomInt(0, images.length)]
 }
 
+function formatUsername(username) {
+  return (username || '').toLowerCase().replace(/\s+/g, '')
+}
+
+function isAsciiString(str) {
+  return /^[\x00-\x7F]*$/.test(str);
+}
+
+function isValidUsername(username) {
+  return isAsciiString(username) &&
+    formatUsername(username) === username &&
+    username.length > 3
+}
+
 /**
  * Routes
  */
@@ -120,7 +137,7 @@ app.get('/user/:id', function(req, res) {
 
 app.post('/users', function(req, res) {
   users.insert({
-    username: req.body.username,
+    username: formatUsername(req.body.username),
     token: crypto.randomBytes(64).toString('hex'),
     image: randomPicture()
   })
@@ -129,40 +146,81 @@ app.post('/users', function(req, res) {
   })
 })
 
-app.get('/valid-username', function(req, res) {
-  // @TODO(shrugs) req.query.username
-  res.json({
-    valid: true
-  })
-})
-
-app.get('/rocks', function(req, res) {
-  rocks.find({}).sort({ created_at: -1 }).toArray()
-    .then(function(rocks) {
-      // for each rock, load the user
-      Promise
-        .all(rocks.map(function(rock) {
-          if (!rock.owner_id) {
-            return rock
-          }
-          // fuck performance lol
-          return users.findOne({
-            _id: ObjectID(rock.owner_id)
-          })
-          .then(function(user) {
-            return Object.assign(rock, {
-              owner: user
-            })
-          })
-        }))
-        .then(function(rocks) {
-          res.json(rocks)
-        })
+app.get('/total-rocks', function(req, res) {
+  rocks.count()
+    .then((ret) => {
+      res.json({
+        count: ret
+      })
     })
 })
 
+app.get('/valid-username', function(req, res) {
+
+  var username = req.query.username
+
+  if (!isValidUsername(username)) {
+    res.json({
+      valid: false
+    })
+    return
+  }
+
+  users
+    .findOne({ username: username })
+    .then((ret) => {
+      res.json({
+        valid: !ret
+      })
+    })
+})
+
+function getCollectionHandler(collection) {
+  return (req, res) => {
+    var lastCreatedAt = req.query.lastCreatedAt
+    lastCreatedAt = lastCreatedAt ?
+                      (new Date(lastCreatedAt)) :
+                      (new Date())
+
+    collection
+      .find({ created_at: { $lt: lastCreatedAt } })
+      .limit(5)
+      .sort({ created_at: -1 })
+      .toArray()
+      .then(function(results) {
+        // for each rock, load the user
+        return Promise
+          .all(results.map(function(result) {
+            if (!result.owner_id) {
+              return Promise.resolve(result)
+            }
+            // fuck performance lol
+            return users.findOne({
+              _id: ObjectID(result.owner_id)
+            })
+            .then(function(user) {
+              return Object.assign(result, {
+                owner: user
+              })
+            })
+          }))
+      })
+      .then(function(results) {
+        res.json(results)
+      })
+      .catch((e) => {
+        res.sendStatus(500);
+        console.log(e)
+      })
+  }
+}
+
+app.get('/rocks', getCollectionHandler(rocks))
+
+app.get('/notrocks', getCollectionHandler(notrocks))
 
 app.get('/nearbyrocks', function(req, res) {
+  // @TODO(shrugs) - implement actual location search
   rocks.find({
     id: { $in: [ 3, 4, 2, 1 ] }
   }).sort({ created_at: -1 }).toArray()
@@ -170,32 +228,6 @@ app.get('/nearbyrocks', function(req, res) {
       // for each rock, load the user
       Promise
         .all(rocks.map(function(rock) {
-          if (!rock.owner_id) {
-            return rock
-          }
-          // fuck performance lol
-          return users.findOne({
-            _id: ObjectID(rock.owner_id)
-          })
-          .then(function(user) {
-            return Object.assign(rock, {
-              owner: user
-            })
-          })
-        }))
-        .then(function(rocks) {
-          res.json(rocks)
-        })
-    })
-})
-
-
-app.get('/notrocks', function(req, res) {
-  notrocks.find({}).sort({ created_at: -1 }).toArray()
-    .then(function(notrocks) {
-      // for each rock, load the user
-      Promise
-        .all(notrocks.map(function(rock) {
           if (!rock.owner_id) {
             return rock
           }
@@ -228,7 +260,6 @@ app.post('/rocks', function(req, res) {
   // upvotes (integer)
   // downvotes (integer)
 
-  // @TODO(shrugs) - reverse geocode location
   getNextId('rock')
     .then(function(id) {
       return rocks.insert({
@@ -254,7 +285,6 @@ app.post('/rocks', function(req, res) {
 
 
 app.post('/notrocks', function(req, res) {
-  // @TODO(shrugs) - reverse geocode location
   getNextId('notrock')
     .then(function(id) {
       return notrocks.insert({
@@ -292,30 +322,6 @@ app.post('/rock/:id/discover', function(req, res) {
         owner: user
       })
     })
-  })
-  .then(function(rock) {
-    res.json(rock);
-  })
-})
-
-app.post('/rock/:id/upvote', function(req, res) {
-  // @TODO(shrugs) upvote a rock
-  rocks.findAndModify({
-    query: { _id: ObjectID(req.params.id) },
-    update: { $inc: { upvotes: 1 } },
-    new: true
-  })
-  .then(function(rock) {
-    res.json(rock);
-  })
-})
-
-app.post('/rock/:id/downvote', function(req, res) {
-  // @TODO(shrugs) downvote a rock
-  rocks.findAndModify({
-    query: { _id: ObjectID(req.params.id) },
-    update: { $inc: { downvotes: 1 } },
-    new: true
   })
   .then(function(rock) {
     res.json(rock);

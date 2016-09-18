@@ -8,8 +8,13 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class RockMapViewController: UIViewController {
+
+  var hasCentered = false
+
+  let locationManager = CLLocationManager()
 
   lazy var mapView : MKMapView = { [unowned self] in
     let mapView = MKMapView()
@@ -58,8 +63,6 @@ class RockMapViewController: UIViewController {
 
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-
-    centerMapOnLocation(CLLocation(latitude: 40.7290453, longitude: -73.9968055))
   }
 
   let regionRadius: CLLocationDistance = 1000
@@ -69,7 +72,7 @@ class RockMapViewController: UIViewController {
   }
 
   func fetchRocks() {
-    THE_DATABASE.sharedDatabase.getRocks { [weak self] rocks in
+    THE_DATABASE.sharedDatabase.getRocks(nil) { [weak self] rocks in
       self?.rocks = rocks
       self?.reloadData()
     }
@@ -77,9 +80,22 @@ class RockMapViewController: UIViewController {
 }
 
 extension RockMapViewController : MKMapViewDelegate {
+
+  func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    if let loc = userLocation.location where !hasCentered {
+      hasCentered = true
+      centerMapOnLocation(loc)
+    }
+  }
+
   func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
 
     var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("demo")
+
+    if annotation.isEqual(mapView.userLocation) {
+      return nil
+    }
+
     if annotationView == nil {
       annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "demo")
       annotationView!.canShowCallout = true

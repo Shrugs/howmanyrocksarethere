@@ -5,3 +5,4 @@ github "Alamofire/Alamofire" ~> 3.4
 github "raulriera/TextFieldEffects"
 github "aws/aws-sdk-ios"
 github "nickoneill/PermissionScope" ~> 1.0
+github "pkluz/PKHUD"
