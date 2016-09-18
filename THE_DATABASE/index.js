@@ -11,7 +11,10 @@ var images = require('./images')
 
 console.log(process.env.MONGODB_URI)
 
-var db = pmongo(process.env.MONGODB_URI || 'mongodb://localhost:27017/howmanyrocks', ['counters', 'rocks', 'users'])
+var db = pmongo(
+  process.env.MONGODB_URI || 'mongodb://localhost:27017/howmanyrocks',
+  { authMechanism: 'ScramSHA1' }
+)
 var counters = db.collection('counters')
 var rocks = db.collection('rocks')
 var notrocks = db.collection('notrocks')
@@ -319,7 +322,7 @@ app.post('/rock/:id/downvote', function(req, res) {
   })
 })
 
-var port = 3000 || process.env.PORT
+var port = process.env.PORT || 3000
 app.listen(port, function () {
   console.log('Running on 0.0.0.0:' + port)
 })

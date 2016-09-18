@@ -123,8 +123,8 @@ class RockProfile: UIView {
       }
     }
 
-    answerLabels = columnLabels.map({ (colLabel) -> UILabel in
-      let label = newAnswerLabel()
+    answerLabels = columnLabels.enumerate().map({ (i, colLabel) -> UILabel in
+      let label = newAnswerLabel(i == 2 ? 12 : i == 3 ? 14 : 16)
       self.addSubview(label)
       label.snp_makeConstraints { make in
         make.top.bottom.equalTo(colLabel)
@@ -149,10 +149,10 @@ class RockProfile: UIView {
     return label
   }
 
-  func newAnswerLabel() -> UILabel {
+  func newAnswerLabel(size: Int = 16) -> UILabel {
     let label = UILabel()
 
-    label.font = UIFont(name: Constants.Text.TitleFont.Name, size: 16)
+    label.font = UIFont(name: Constants.Text.TitleFont.Name, size: CGFloat(size))
     label.textColor = .blackColor()
     label.textAlignment = .Left
     label.numberOfLines = 3

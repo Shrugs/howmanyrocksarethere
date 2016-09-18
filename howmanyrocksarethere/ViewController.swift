@@ -29,12 +29,12 @@ class ViewController: UITabBarController {
       feed,
       map
     ], animated: false)
+
+    selectedIndex = 0
+
   }
 
   override func viewDidAppear(animated: Bool) {
-
-    selectedViewController = feed
-
     // if this is the first launch, aka, token doesn't exist, ask for a username and create the user
     if THE_DATABASE.sharedDatabase.token == nil {
       let login = LoginViewController()

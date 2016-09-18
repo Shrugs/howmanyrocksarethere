@@ -8,12 +8,15 @@
 
 import UIKit
 import TextFieldEffects
+import PermissionScope
 
 protocol LoginViewControllerDelegate {
   func didFinish()
 }
 
 class LoginViewController: UIViewController {
+
+  let pscope = PermissionScope()
 
   lazy var usernameField : UITextField = {
     let textField = YokoTextField()
@@ -93,6 +96,20 @@ class LoginViewController: UIViewController {
 
     let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
     view.addGestureRecognizer(tap)
+
+    // configure PermissionScope
+    pscope.headerLabel.text = "But first..."
+    pscope.headerLabel.font = UIFont(name: Constants.Text.BoldFont.Name, size: 16)
+    pscope.bodyLabel.text = "How Many Rocks Are There\nneeds these permissions to function."
+    pscope.bodyLabel.font = UIFont(name: Constants.Text.Font.Name, size: 14)
+    pscope.bodyLabel.numberOfLines = 3
+    pscope.closeButton.hidden = true
+    pscope.buttonFont = UIFont(name: Constants.Text.Font.Name, size: 14)!
+    pscope.authorizedButtonColor = Constants.Color.TintColor
+    pscope.addPermission(LocationWhileInUsePermission(),
+                         message: "To find rocks near you.")
+    pscope.addPermission(CameraPermission(),
+                         message: "To take pictures of rocks you find.")
   }
 
   override func viewDidAppear(animated: Bool) {
@@ -106,7 +123,29 @@ class LoginViewController: UIViewController {
   }
 
   func login() {
-    createUser()
+    // on login, ask for all of the relevant permissions and then createUser()
+    pscope.show({ finished, results in
+      // assume success
+      for result in results {
+        if result.status != .Authorized {
+          return
+        }
+      }
+
+      self.createUser()
+    }, cancelled: { (results) -> Void in
+      self.chastiseUser()
+    })
+  }
+
+  func chastiseUser() {
+    let alert = UIAlertController(
+      title: "Whoops!",
+      message: "How Many Rock Are There needs all of these permissions to function!",
+      preferredStyle: .Alert
+    )
+
+    self.presentViewController(alert, animated: true, completion: nil)
   }
 
   func dismissKeyboard() {

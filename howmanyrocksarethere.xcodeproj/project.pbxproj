@@ -12,6 +12,7 @@
 		C936EBA21D85E923006DBEC5 /* InvalidRockController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936EBA11D85E923006DBEC5 /* InvalidRockController.swift */; };
 		C936EBA41D85F274006DBEC5 /* RockMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936EBA31D85F274006DBEC5 /* RockMapViewController.swift */; };
 		C936EBA61D85F864006DBEC5 /* RockAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936EBA51D85F864006DBEC5 /* RockAnnotation.swift */; };
+		C9ED86691D8EE81100E14FDF /* PermissionScope.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED86681D8EE81100E14FDF /* PermissionScope.framework */; };
 		C9F82B211D8483CF00608689 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B201D8483CF00608689 /* AppDelegate.swift */; };
 		C9F82B231D8483CF00608689 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B221D8483CF00608689 /* ViewController.swift */; };
 		C9F82B281D8483CF00608689 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F82B271D8483CF00608689 /* Assets.xcassets */; };
@@ -50,6 +51,7 @@
 		C936EBA11D85E923006DBEC5 /* InvalidRockController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvalidRockController.swift; sourceTree = "<group>"; };
 		C936EBA31D85F274006DBEC5 /* RockMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RockMapViewController.swift; sourceTree = "<group>"; };
 		C936EBA51D85F864006DBEC5 /* RockAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RockAnnotation.swift; sourceTree = "<group>"; };
+		C9ED86681D8EE81100E14FDF /* PermissionScope.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PermissionScope.framework; path = Carthage/Build/iOS/PermissionScope.framework; sourceTree = SOURCE_ROOT; };
 		C9F82B1D1D8483CF00608689 /* howmanyrocksarethere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = howmanyrocksarethere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F82B201D8483CF00608689 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9F82B221D8483CF00608689 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9ED86691D8EE81100E14FDF /* PermissionScope.framework in Frameworks */,
 				C9F82B391D84891100608689 /* SnapKit.framework in Frameworks */,
 				C9F82B371D84891100608689 /* Alamofire.framework in Frameworks */,
 				C9F82B381D84891100608689 /* Fusuma.framework in Frameworks */,
@@ -121,6 +124,7 @@
 		C9F82B1F1D8483CF00608689 /* howmanyrocksarethere */ = {
 			isa = PBXGroup;
 			children = (
+				C9ED86681D8EE81100E14FDF /* PermissionScope.framework */,
 				C9F82B331D84891100608689 /* Alamofire.framework */,
 				C9F82B341D84891100608689 /* Fusuma.framework */,
 				C9F82B351D84891100608689 /* SnapKit.framework */,
@@ -250,6 +254,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/TextFieldEffects.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/AWSCore.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/AWSS3.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/PermissionScope.framework",
 			);
 			outputPaths = (
 			);

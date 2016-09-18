@@ -27,7 +27,7 @@ class THE_DATABASE {
 
   var clarifaiAuthToken : String?
 
-  let baseUrl = "http://howmanyrocks.ngrok.io"
+  let baseUrl = "http://howmanyrocks.herokuapp.com"
 
 
   func refreshClarifaiAccessToken() {

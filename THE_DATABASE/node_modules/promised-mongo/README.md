@@ -1,3 +1,10 @@
+**This is a modified version of [promised-mongo](https://github.com/gordonmleigh/promised-mongo) that provide the option of using SCRAM-SHA-1 as authentication mechanism to connect to a remote database.**
+
+**As of MongoDB 3.0, SCRAM-SHA-1 is the [default authentication mechanism](https://docs.mongodb.com/manual/core/security-scram-sha-1/#authentication-scram-sha-1), and should resolve connection auth error to [mLab databases](https://github.com/gordonmleigh/promised-mongo/pull/36) and elsewhere**
+
+
+###### changes to the original readme is denoted with ~~strikethrough~~ 
+
 <a href="http://promises-aplus.github.com/promises-spec">
     <img src="http://promises-aplus.github.com/promises-spec/assets/logo-small.png"
          align="right" alt="Promises/A+ logo" />
@@ -13,7 +20,16 @@ break with previous versions, this library only supports promises, and not callb
 
 promised-mongo is available through [npm](http://npmjs.org):
 
-	npm install promised-mongo
+__it appears the author is no longer working on the [original repo](https://github.com/gordonmleigh/promised-mongo) as PR sits for months__
+
+
+>~~npm install promised-mongo~~
+
+
+__instead use the following__
+
+	
+	npm install https://github.com/mindeavor/promised-mongo
 
 
 ## Compatability with previous versions
@@ -80,8 +96,10 @@ var db = pmongo('mydb', ['mycollection']);
 // the db is on a remote server (the port default to mongo)
 var db = pmongo('example.com/mydb', ['mycollection']);
 
+//optionally pass in an option object specifying the use of SCRAM-SHA-1 for connecting to remote MongoDB running v3.0 or above
+var db = pmongo('example.com/mydb', ['mycollection'],{authMechanism: 'ScramSHA1'});
 // we can also provide some credentials
-var db = pmongo('username:password@example.com/mydb', ['mycollection']);
+var db = pmongo('username:password@example.com/mydb', ['mycollection'],{authMechanism: 'ScramSHA1'});
 
 // connect now, and worry about collections later
 var db = pmongo('mydb');
