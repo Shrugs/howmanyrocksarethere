@@ -1,5 +1,5 @@
 github "SnapKit/SnapKit" >= 0.15.0
-git "file:///Users/matt/Projects/ios/Fusuma" "master"
+git "file:///Users/matt/Projects/ios/Fusuma" "feat/vc-order"
 github "rs/SDWebImage"
 github "Alamofire/Alamofire" ~> 3.4
 github "raulriera/TextFieldEffects"

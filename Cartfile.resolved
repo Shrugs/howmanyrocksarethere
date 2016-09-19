@@ -1,5 +1,5 @@
 github "Alamofire/Alamofire" "3.5.0"
-git "file:///Users/matt/Projects/ios/Fusuma" "1dcd8d976db1b7d83b45a69715e157815d87cc93"
+git "file:///Users/matt/Projects/ios/Fusuma" "db8ef475ce3c65c1d3bb85f3da9de06d2aaab7f0"
 github "pkluz/PKHUD" "3.2.1"
 github "nickoneill/PermissionScope" "1.0.2"
 github "rs/SDWebImage" "3.8.2"

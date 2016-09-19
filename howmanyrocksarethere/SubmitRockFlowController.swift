@@ -30,14 +30,11 @@ class SubmitRockFlowController: UINavigationController {
     ]
   }
 
-  func setupFusuma() {
-    Fusuma.fusumaTintColor = Constants.Color.TintColor
-    Fusuma.fusumaCheckImage = UIImage(named: "ic_navigate_next", inBundle: nil, compatibleWithTraitCollection: nil)
-  }
-
   func showCamera() {
-    setupFusuma()
     let camera = FusumaViewController()
+    camera.availableModes = [.Camera]
+    camera.tintColor = Constants.Color.TintColor
+    camera.checkImage = UIImage(named: "ic_navigate_next", inBundle: nil, compatibleWithTraitCollection: nil)
     camera.delegate = self
     self.pushViewController(camera, animated: true)
   }

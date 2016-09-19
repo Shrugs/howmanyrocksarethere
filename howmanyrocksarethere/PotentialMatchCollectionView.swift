@@ -81,13 +81,15 @@ class PotentialMatchCollectionView : UIViewController {
       }
 
       // if there are no nearby rocks
-      // but a big "my rock is unique"
+      // put a big "my rock is unique"
 
-      self.view.addSubview(self.uniqueButton)
-      self.uniqueButton.snp_makeConstraints { make in
-        make.center.equalTo(self.view)
-        make.width.equalTo(self.view).multipliedBy(0.8)
-        make.height.equalTo(50)
+      if rocks.count == 0 {
+          self.view.addSubview(self.uniqueButton)
+          self.uniqueButton.snp_makeConstraints { make in
+              make.center.equalTo(self.view)
+              make.width.equalTo(self.view).multipliedBy(0.8)
+              make.height.equalTo(50)
+          }
       }
     }
   }

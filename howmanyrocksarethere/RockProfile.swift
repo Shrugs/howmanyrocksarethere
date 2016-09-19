@@ -89,7 +89,6 @@ class RockProfile: UIView {
 
     let columns = [
       "ROCK NO.",
-      "LOCATION",
       "COORDINATES",
       "DISCOVERED",
       "NICKNAME",
@@ -124,7 +123,7 @@ class RockProfile: UIView {
     }
 
     answerLabels = columnLabels.enumerate().map({ (i, colLabel) -> UILabel in
-      let label = newAnswerLabel(i == 2 ? 12 : i == 3 ? 14 : 16)
+      let label = newAnswerLabel(i == 1 ? 12 : i == 2 ? 14 : 16)
       self.addSubview(label)
       label.snp_makeConstraints { make in
         make.top.bottom.equalTo(colLabel)
@@ -169,12 +168,16 @@ class RockProfile: UIView {
 
     // properties
 
+    let location = rock["location"] as! [String: AnyObject]
+    let coord = location["coordinates"] as! [Double]
+    let lng = coord[0]
+    let lat = coord[1]
+
     answerLabels[0].text = "#0000\(rock["id"] as! Int)"
-    answerLabels[1].text = rock["location_name"] as? String ?? "Manhattan, New York"
-    answerLabels[2].text = "\(rock["lat"] as! Double), \(rock["lng"] as! Double)"
-    answerLabels[3].text = rock["created_at"] as? String
-    answerLabels[4].text = rock["nickname"] as? String
-    answerLabels[5].text = rock["comment"] as? String
+    answerLabels[1].text = "\(lat), \(lng)"
+    answerLabels[2].text = rock["created_at"] as? String
+    answerLabels[3].text = rock["nickname"] as? String
+    answerLabels[4].text = rock["comment"] as? String
   }
 }
 
