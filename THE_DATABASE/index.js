@@ -353,6 +353,26 @@ app.post('/rock/:id/discover', function(req, res) {
   .then(function(rock) {
     res.json(rock);
   })
+  .catch(onError(res))
+})
+
+app.get('/rock/:id', function(req, res) {
+  rocks
+    .findOne({ _id: ObjectID(req.params.id) })
+    .then(rock => {
+      return users.findOne({
+        _id: ObjectID(rock.owner_id)
+      })
+      .then(function(user) {
+        return Object.assign(rock, {
+          owner: user
+        })
+      })
+    })
+    .then(rock => {
+      res.json(rock)
+    })
+    .catch(onError(res))
 })
 
 var port = process.env.PORT || 3000

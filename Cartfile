@@ -7,3 +7,4 @@ github "aws/aws-sdk-ios"
 github "nickoneill/PermissionScope" ~> 1.0
 github "pkluz/PKHUD"
 github "duemunk/Async" "feature/Swift_2.3"
+github "bizz84/SwiftyStoreKit" "swift-2.2"

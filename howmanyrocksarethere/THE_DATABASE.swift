@@ -25,6 +25,17 @@ class THE_DATABASE {
     }
   }
 
+  var currentUser : [String: String]? {
+    get {
+      return NSUserDefaults.standardUserDefaults().objectForKey("currentUser") as? [String: String]
+    }
+    set {
+      let defaults = NSUserDefaults.standardUserDefaults()
+      defaults.setObject(newValue, forKey: "currentUser")
+      defaults.synchronize()
+    }
+  }
+
   var clarifaiAuthToken : String?
 
   let baseUrl = Constants.Urls.Base
@@ -39,9 +50,10 @@ class THE_DATABASE {
     .responseJSON { resp in
       switch resp.result {
       case .Success(let JSON):
-        let ret = JSON as! [String: AnyObject]
-        self.clarifaiAuthToken = ret["access_token"] as? String
-        print("Authenticated with Clarifai")
+        if let ret = JSON as? [String: String] {
+          self.clarifaiAuthToken = ret["access_token"]
+          print("Authenticated with Clarifai")
+        }
       default:
         print("Clarifai Authentication Failed")
         print(resp)
@@ -77,6 +89,7 @@ class THE_DATABASE {
       case .Success(let JSON):
         let data = JSON as! [String: String]
         self.token = data["token"]!
+        self.currentUser = data
         cb()
       default:
         debugPrint(resp)
@@ -126,9 +139,22 @@ class THE_DATABASE {
           let rocks = JSON as! [Rock]
           cb(rocks)
         default:
-           print(resp)
+           debugPrint(resp)
         }
       }
+  }
+
+  func getRock(rockId: String, cb: (Rock) -> Void) {
+    Alamofire.request(.GET, "\(baseUrl)/rock/\(rockId)")
+      .responseJSON { resp in
+        switch resp.result {
+        case .Success(let JSON):
+          let rock = JSON as! Rock
+          cb(rock)
+        default:
+          debugPrint(resp)
+        }
+    }
   }
 
   func getTotalRocks(cb: (Int) -> Void) {
@@ -177,28 +203,32 @@ class THE_DATABASE {
   }
 
   func isRock(imageUrl: String, cb: (Bool) -> Void) {
-    Alamofire.request(.GET, "https://api.clarifai.com/v1/tag", parameters: [
-      "access_token": self.clarifaiAuthToken!,
-      "url": imageUrl,
-      "select_classes": "rock"
-    ])
-    .responseJSON { resp in
-      switch resp.result {
-      case .Success(let JSON):
-        let results = (JSON as! [String: AnyObject])["results"] as! [[String: AnyObject]]
-        let result = results.first!["result"] as! [String: AnyObject]
-        let probs = (result["tag"] as! [String: AnyObject])["probs"] as! [Double]
-        // if any of the probs are > 0.4, call it a rock
-        for prob in probs {
-          if prob > PROB_THRESH {
+    if let token = self.clarifaiAuthToken {
+      Alamofire.request(.GET, "https://api.clarifai.com/v1/tag", parameters: [
+        "access_token": token,
+        "url": imageUrl,
+        "select_classes": "rock"
+        ])
+        .responseJSON { resp in
+          switch resp.result {
+          case .Success(let JSON):
+            let results = (JSON as! [String: AnyObject])["results"] as! [[String: AnyObject]]
+            let result = results.first!["result"] as! [String: AnyObject]
+            let probs = (result["tag"] as! [String: AnyObject])["probs"] as! [Double]
+            // if any of the probs are > 0.4, call it a rock
+            for prob in probs {
+              if prob > PROB_THRESH {
+                cb(true)
+                return
+              }
+            }
+            cb(false)
+          default:
             cb(true)
-            return
           }
-        }
-        cb(false)
-      default:
-        cb(true)
       }
+    } else {
+      cb(true)
     }
   }
 }

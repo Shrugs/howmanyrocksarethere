@@ -16,6 +16,8 @@
 		C95DEE741D96439700602621 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95DEE731D96439700602621 /* UIImage+Gif.swift */; };
 		C95DEE781D96460000602621 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C95DEE771D96460000602621 /* loading.gif */; };
 		C95DEE7A1D9726A700602621 /* Rock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95DEE791D9726A700602621 /* Rock.swift */; };
+		C95DEE7C1D972BDD00602621 /* SwiftyStoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95DEE7B1D972BDD00602621 /* SwiftyStoreKit.framework */; };
+		C95DEE7E1D972C6B00602621 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95DEE7D1D972C6B00602621 /* UIViewController+Alert.swift */; };
 		C9ED86691D8EE81100E14FDF /* PermissionScope.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED86681D8EE81100E14FDF /* PermissionScope.framework */; };
 		C9ED866B1D8EFB7600E14FDF /* PKHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED866A1D8EFB7600E14FDF /* PKHUD.framework */; };
 		C9F82B211D8483CF00608689 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B201D8483CF00608689 /* AppDelegate.swift */; };
@@ -59,6 +61,8 @@
 		C95DEE731D96439700602621 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		C95DEE771D96460000602621 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		C95DEE791D9726A700602621 /* Rock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rock.swift; sourceTree = "<group>"; };
+		C95DEE7B1D972BDD00602621 /* SwiftyStoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyStoreKit.framework; path = Carthage/Build/iOS/SwiftyStoreKit.framework; sourceTree = SOURCE_ROOT; };
+		C95DEE7D1D972C6B00602621 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		C9ED86681D8EE81100E14FDF /* PermissionScope.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PermissionScope.framework; path = Carthage/Build/iOS/PermissionScope.framework; sourceTree = SOURCE_ROOT; };
 		C9ED866A1D8EFB7600E14FDF /* PKHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PKHUD.framework; path = Carthage/Build/iOS/PKHUD.framework; sourceTree = SOURCE_ROOT; };
 		C9F82B1D1D8483CF00608689 /* howmanyrocksarethere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = howmanyrocksarethere.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +113,7 @@
 				C9F82B3A1D84891100608689 /* WebImage.framework in Frameworks */,
 				C9F82B541D8509A100608689 /* AWSCore.framework in Frameworks */,
 				C95DEE701D96345800602621 /* Async.framework in Frameworks */,
+				C95DEE7C1D972BDD00602621 /* SwiftyStoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +140,7 @@
 		C9F82B1F1D8483CF00608689 /* howmanyrocksarethere */ = {
 			isa = PBXGroup;
 			children = (
+				C95DEE7B1D972BDD00602621 /* SwiftyStoreKit.framework */,
 				C95DEE6F1D96345800602621 /* Async.framework */,
 				C9ED866A1D8EFB7600E14FDF /* PKHUD.framework */,
 				C9ED86681D8EE81100E14FDF /* PermissionScope.framework */,
@@ -165,6 +171,7 @@
 				C936EB9F1D85E743006DBEC5 /* NSTimer+Swift.swift */,
 				C936EBA51D85F864006DBEC5 /* RockAnnotation.swift */,
 				C95DEE771D96460000602621 /* loading.gif */,
+				C95DEE7D1D972C6B00602621 /* UIViewController+Alert.swift */,
 			);
 			path = howmanyrocksarethere;
 			sourceTree = "<group>";
@@ -272,6 +279,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/PermissionScope.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PKHUD.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Async.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyStoreKit.framework",
 			);
 			outputPaths = (
 			);
@@ -313,6 +321,7 @@
 				C936EBA61D85F864006DBEC5 /* RockAnnotation.swift in Sources */,
 				C9F82B571D850F8300608689 /* Utils.swift in Sources */,
 				C9F82B781D85D41500608689 /* RockProfileController.swift in Sources */,
+				C95DEE7E1D972C6B00602621 /* UIViewController+Alert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

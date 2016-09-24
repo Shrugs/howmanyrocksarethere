@@ -11,6 +11,7 @@ import TextFieldEffects
 import PermissionScope
 import PKHUD
 import SnapKit
+import Async
 
 protocol LoginViewControllerDelegate {
   func didFinish()
@@ -215,27 +216,19 @@ class LoginViewController: UIViewController {
     alert(title: "Whoops!", message: "How Many Rock Are There needs all of these permissions to function!", close: "I'll try again.")
   }
 
-  func alert(title title: String, message: String, close: String) {
-    let alert = UIAlertController(
-      title: title,
-      message: message,
-      preferredStyle: .Alert
-    )
-
-    alert.addAction(UIAlertAction(title: close, style: .Default, handler: nil))
-
-    self.presentViewController(alert, animated: true, completion: nil)
-  }
-
   func dismissKeyboard() {
     usernameField.resignFirstResponder()
   }
 
   func createUser() {
-    THE_DATABASE.sharedDatabase.createUser(usernameField.text ?? "") {
-      HUD.flash(.Success, delay: 0.5)
-      // assume the user is created, lol error handling
-      self.delegate?.didFinish()
+    Async.userInitiated {
+      THE_DATABASE.sharedDatabase.createUser(self.usernameField.text ?? "") {
+        Async.main {
+          HUD.flash(.Success, delay: 0.5)
+          // assume the user is created, lol error handling
+          self.delegate?.didFinish()
+        }
+      }
     }
   }
 }

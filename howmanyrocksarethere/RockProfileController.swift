@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SwiftyStoreKit
+import PKHUD
 
 protocol RockProfileControllerDelegate {
   func shouldClose()
@@ -28,7 +30,7 @@ class RockProfileController: UIViewController {
     let button = UIButton(type: .Custom)
     button.backgroundColor = Constants.Color.TintColor
     button.titleLabel?.font = UIFont(name: Constants.Text.BoldFont.Name, size: Constants.Text.BoldFont.Size)
-    button.setTitle("Discover Rock ($0.40)", forState: .Normal)
+    button.setTitle("Discover Rock ($0.99)", forState: .Normal)
     button.titleLabel?.textColor = Constants.Color.White
     button.addTarget(self, action: #selector(discover), forControlEvents: .TouchUpInside)
     return button
@@ -49,6 +51,10 @@ class RockProfileController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    self.setOwnsRock()
+
+    self.updateRock()
 
     view.backgroundColor = Constants.Color.AltBackground
 
@@ -94,19 +100,51 @@ class RockProfileController: UIViewController {
     delegate?.shouldClose()
   }
 
+  func updateRock() {
+    if let _id = self.rock["_id"] as? String {
+      THE_DATABASE.sharedDatabase.getRock(_id) { rock in
+        self.rock = rock
+        self.setOwnsRock()
+        self.profile.setRock(rock)
+      }
+    }
+  }
+
+  func setOwnsRock() {
+    if let currentUser = THE_DATABASE.sharedDatabase.currentUser {
+      if let ownerId = self.rock["owner_id"] as? String
+        where ownerId == currentUser["_id"] {
+
+        self.claimButton.setTitle("You Discovered This Rock", forState: .Normal)
+        self.claimButton.enabled = false
+      } else {
+        self.claimButton.setTitle("Discover Rock ($0.99)", forState: .Normal)
+        self.claimButton.enabled = true
+      }
+    }
+  }
+
   func discover() {
-    // launch venmo and then trigger update (assume success)
-    let id = String(self.rock["id"] as? Int ?? 1)
+    HUD.show(.Progress)
 
-    UIApplication
-      .sharedApplication()
-      .openURL(NSURL(string: "venmosdk://venmo.com/?amount=\(self.price)&recipients=alecc&note=Discover%20rock%20%230000\(id)%3F")!)
-
-    // save discoverer on the backend
-    THE_DATABASE.sharedDatabase.discoverRock(rock["_id"] as! String) { [weak self] rock in
-      self?.claimButton.setTitle("Discover Rock ($0.80)", forState: .Normal)
-      self?.rock = rock
-      self?.profile.setRock(rock)
+    SwiftyStoreKit.purchaseProduct("mat.tc.howmanyrock.DiscoverRock") { result in
+      switch result {
+      case .Success(_):
+        HUD.flash(.Success, delay: 0.5)
+        // save discoverer on the backend
+        THE_DATABASE.sharedDatabase.discoverRock(self.rock["_id"] as! String) { [weak self] rock in
+          self?.rock = rock
+          self?.setOwnsRock()
+          self?.profile.setRock(rock)
+        }
+      case .Error(let error):
+        HUD.flash(.Error, delay: 0.5)
+        self.alert(
+          title: "Something went wrong.",
+          message: "Help us count how many errors they are, and where are they by reporting this error: '\(error)'",
+          close: "OK"
+        )
+      }
     }
   }
 }
