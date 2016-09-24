@@ -26,6 +26,17 @@ class RockMapViewController: UIViewController {
     return mapView
   }()
 
+  lazy var centerButton : UIButton = { [unowned self] in
+    let button = UIButton(type: .Custom)
+    button.backgroundColor = Constants.Color.OffWhite
+    button.layer.cornerRadius = 20
+    button.tintColor = Constants.Color.TintColor
+    button.setImage(UIImage(named: "ic_my_location")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+    button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+    button.addTarget(self, action: #selector(centerOnUser), forControlEvents: .TouchUpInside)
+    return button
+  }()
+
   var rocks = [[String: AnyObject]]()
 
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -41,9 +52,17 @@ class RockMapViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    self.edgesForExtendedLayout = UIRectEdge.None
+
     view.addSubview(mapView)
     mapView.snp_makeConstraints { make in
       make.edges.equalTo(view)
+    }
+
+    view.addSubview(centerButton)
+    centerButton.snp_makeConstraints { make in
+      make.bottom.right.equalTo(view).offset(-30)
+      make.height.width.equalTo(40)
     }
   }
 
@@ -85,6 +104,12 @@ class RockMapViewController: UIViewController {
           self?.reloadData()
         }
       }
+    }
+  }
+
+  func centerOnUser() {
+    if let loc = mapView.userLocation.location {
+      centerMapOnLocation(loc)
     }
   }
 }

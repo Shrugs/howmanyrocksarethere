@@ -50,6 +50,8 @@ class FeedViewController : UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    self.edgesForExtendedLayout = UIRectEdge.None
+
     self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "ic_list"), selectedImage: UIImage(named: "ic_list"))
     self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
 

@@ -46,7 +46,6 @@ class ViewController: UITabBarController {
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return .LightContent
   }
-
 }
 
 extension ViewController : LoginViewControllerDelegate {

@@ -133,6 +133,15 @@ class LoginViewController: UIViewController {
         object: nil
       )
 
+    NSNotificationCenter
+      .defaultCenter()
+      .addObserver(
+        self,
+        selector: #selector(keyboardHidden),
+        name: UIKeyboardDidHideNotification,
+        object: nil
+    )
+
     usernameField.becomeFirstResponder()
   }
 
@@ -152,6 +161,16 @@ class LoginViewController: UIViewController {
     let keyboardFrame = view.convertRect(rawFrame, fromView: nil)
 
     bottomConstraint.updateOffset(-1 * keyboardFrame.size.height)
+
+    view.setNeedsLayout()
+
+    UIView.animateWithDuration(0.3) {
+      self.view.layoutIfNeeded()
+    }
+  }
+
+  func keyboardHidden(notification: NSNotification) {
+    bottomConstraint.updateOffset(0)
 
     view.setNeedsLayout()
 
