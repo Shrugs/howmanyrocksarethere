@@ -126,6 +126,20 @@ extension FeedViewController : UICollectionViewDelegate {
   func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
     possiblyLoadRocks(scrollView)
   }
+
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let rock = self.rocks[indexPath.row]
+
+    let vc = RockProfileController(rock: rock)
+    vc.delegate = self
+    self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension FeedViewController : RockProfileControllerDelegate {
+  func shouldCloseProfileController(profileController: RockProfileController) {
+    self.navigationController?.popViewControllerAnimated(true)
+  }
 }
 
 extension FeedViewController : UICollectionViewDelegateFlowLayout {
@@ -176,7 +190,7 @@ extension FeedViewController : UICollectionViewDataSource {
 }
 
 extension FeedViewController : SubmitRockFlowControllerDelegate {
-  func shouldClose() {
+  func shouldClose(flowController: SubmitRockFlowController) {
     loadRocks()
     self.dismissViewControllerAnimated(true, completion: nil)
   }

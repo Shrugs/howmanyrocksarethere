@@ -170,7 +170,7 @@ extension RockMapViewController : MKMapViewDelegate {
 }
 
 extension RockMapViewController : RockProfileControllerDelegate {
-  func shouldClose() {
+  func shouldCloseProfileController(profileController: RockProfileController) {
     self.navigationController?.popViewControllerAnimated(true)
   }
 }

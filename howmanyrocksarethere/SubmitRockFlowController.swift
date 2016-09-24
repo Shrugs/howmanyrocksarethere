@@ -10,7 +10,7 @@ import UIKit
 import Fusuma
 
 protocol SubmitRockFlowControllerDelegate {
-  func shouldClose()
+  func shouldClose(flowController: SubmitRockFlowController)
 }
 
 class SubmitRockFlowController: UINavigationController {
@@ -60,8 +60,8 @@ extension SubmitRockFlowController : IsThisARockControllerDelegate {
 }
 
 extension SubmitRockFlowController : RockProfileControllerDelegate {
-  func shouldClose() {
-    cDelegate?.shouldClose()
+  func shouldCloseProfileController(profileController: RockProfileController) {
+    cDelegate?.shouldClose(self)
   }
 }
 
@@ -88,7 +88,7 @@ extension SubmitRockFlowController : FusumaDelegate {
   }
 
   func fusumaClosed(fusuma: FusumaViewController) {
-    self.cDelegate?.shouldClose()
+    self.cDelegate?.shouldClose(self)
   }
 
   func fusumaCameraRollUnauthorized(fusuma: FusumaViewController) {
@@ -117,6 +117,6 @@ extension SubmitRockFlowController : FusumaDelegate {
 
 extension SubmitRockFlowController : SubmitRockPostControllerDelegate {
   func didFinish() {
-    self.cDelegate?.shouldClose()
+    self.cDelegate?.shouldClose(self)
   }
 }

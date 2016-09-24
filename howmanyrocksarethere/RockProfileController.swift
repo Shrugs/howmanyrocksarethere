@@ -11,7 +11,7 @@ import SwiftyStoreKit
 import PKHUD
 
 protocol RockProfileControllerDelegate {
-  func shouldClose()
+  func shouldCloseProfileController(profileController: RockProfileController)
 }
 
 class RockProfileController: UIViewController {
@@ -97,7 +97,7 @@ class RockProfileController: UIViewController {
   }
 
   func close() {
-    delegate?.shouldClose()
+    delegate?.shouldCloseProfileController(self)
   }
 
   func updateRock() {

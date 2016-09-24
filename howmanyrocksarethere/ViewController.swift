@@ -17,12 +17,16 @@ class ViewController: UITabBarController {
     return view
   }()
 
-  let feed = FeedViewController()
+  lazy var feed: UINavigationController = {
+    let feed = FeedViewController()
+    let navigationController = UINavigationController(rootViewController: feed)
+    navigationController.setNavigationBarHidden(true, animated: false)
+    return navigationController
+  }()
   lazy var map: UINavigationController = {
     let map = RockMapViewController()
     let navigationController = UINavigationController(rootViewController: map)
     navigationController.setNavigationBarHidden(true, animated: false)
-
     return navigationController
   }()
 
