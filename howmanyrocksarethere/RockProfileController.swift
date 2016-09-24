@@ -127,7 +127,7 @@ class RockProfileController: UIViewController {
   func discover() {
     HUD.show(.Progress)
 
-    SwiftyStoreKit.purchaseProduct("mat.tc.howmanyrock.DiscoverRock") { result in
+    SwiftyStoreKit.purchaseProduct("mat.tc.howmanyrocks.DiscoverRock") { result in
       switch result {
       case .Success(_):
         HUD.flash(.Success, delay: 0.5)

@@ -18,6 +18,7 @@
 		C95DEE7A1D9726A700602621 /* Rock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95DEE791D9726A700602621 /* Rock.swift */; };
 		C95DEE7C1D972BDD00602621 /* SwiftyStoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95DEE7B1D972BDD00602621 /* SwiftyStoreKit.framework */; };
 		C95DEE7E1D972C6B00602621 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95DEE7D1D972C6B00602621 /* UIViewController+Alert.swift */; };
+		C95DEE801D97341E00602621 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95DEE7F1D97341E00602621 /* StoreKit.framework */; };
 		C9ED86691D8EE81100E14FDF /* PermissionScope.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED86681D8EE81100E14FDF /* PermissionScope.framework */; };
 		C9ED866B1D8EFB7600E14FDF /* PKHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED866A1D8EFB7600E14FDF /* PKHUD.framework */; };
 		C9F82B211D8483CF00608689 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B201D8483CF00608689 /* AppDelegate.swift */; };
@@ -60,9 +61,10 @@
 		C95DEE6F1D96345800602621 /* Async.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Async.framework; path = Carthage/Build/iOS/Async.framework; sourceTree = SOURCE_ROOT; };
 		C95DEE731D96439700602621 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		C95DEE771D96460000602621 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
-		C95DEE791D9726A700602621 /* Rock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rock.swift; sourceTree = "<group>"; };
+		C95DEE791D9726A700602621 /* Rock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Rock.swift; path = ../Rock.swift; sourceTree = "<group>"; };
 		C95DEE7B1D972BDD00602621 /* SwiftyStoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyStoreKit.framework; path = Carthage/Build/iOS/SwiftyStoreKit.framework; sourceTree = SOURCE_ROOT; };
 		C95DEE7D1D972C6B00602621 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
+		C95DEE7F1D97341E00602621 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C9ED86681D8EE81100E14FDF /* PermissionScope.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PermissionScope.framework; path = Carthage/Build/iOS/PermissionScope.framework; sourceTree = SOURCE_ROOT; };
 		C9ED866A1D8EFB7600E14FDF /* PKHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PKHUD.framework; path = Carthage/Build/iOS/PKHUD.framework; sourceTree = SOURCE_ROOT; };
 		C9F82B1D1D8483CF00608689 /* howmanyrocksarethere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = howmanyrocksarethere.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +108,7 @@
 				C9ED866B1D8EFB7600E14FDF /* PKHUD.framework in Frameworks */,
 				C9ED86691D8EE81100E14FDF /* PermissionScope.framework in Frameworks */,
 				C9F82B391D84891100608689 /* SnapKit.framework in Frameworks */,
+				C95DEE801D97341E00602621 /* StoreKit.framework in Frameworks */,
 				C9F82B371D84891100608689 /* Alamofire.framework in Frameworks */,
 				C9F82B381D84891100608689 /* Fusuma.framework in Frameworks */,
 				C9F82B551D8509A100608689 /* AWSS3.framework in Frameworks */,
@@ -123,7 +126,6 @@
 		C9F82B141D8483CF00608689 = {
 			isa = PBXGroup;
 			children = (
-				C95DEE791D9726A700602621 /* Rock.swift */,
 				C9F82B1F1D8483CF00608689 /* howmanyrocksarethere */,
 				C9F82B1E1D8483CF00608689 /* Products */,
 			);
@@ -140,6 +142,7 @@
 		C9F82B1F1D8483CF00608689 /* howmanyrocksarethere */ = {
 			isa = PBXGroup;
 			children = (
+				C95DEE7F1D97341E00602621 /* StoreKit.framework */,
 				C95DEE7B1D972BDD00602621 /* SwiftyStoreKit.framework */,
 				C95DEE6F1D96345800602621 /* Async.framework */,
 				C9ED866A1D8EFB7600E14FDF /* PKHUD.framework */,
@@ -152,6 +155,7 @@
 				C9F82B521D8509A100608689 /* AWSCore.framework */,
 				C9F82B531D8509A100608689 /* AWSS3.framework */,
 				C9F82B201D8483CF00608689 /* AppDelegate.swift */,
+				C95DEE791D9726A700602621 /* Rock.swift */,
 				C9F82B5C1D85B02200608689 /* LoginViewController.swift */,
 				C9F82B221D8483CF00608689 /* ViewController.swift */,
 				C936EBA31D85F274006DBEC5 /* RockMapViewController.swift */,
@@ -228,6 +232,11 @@
 					C9F82B1C1D8483CF00608689 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 8DZG85JJAZ;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
