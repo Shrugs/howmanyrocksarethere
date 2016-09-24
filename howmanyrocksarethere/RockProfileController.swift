@@ -17,7 +17,7 @@ class RockProfileController: UIViewController {
   var delegate : RockProfileControllerDelegate?
 
   let profile = RockProfile()
-  var rock : [String: AnyObject]!
+  var rock : Rock!
 
   var price = 0.40
 
@@ -38,7 +38,7 @@ class RockProfileController: UIViewController {
     return button
   }()
 
-  convenience init(rock: [String: AnyObject]) {
+  convenience init(rock: Rock) {
     self.init(nibName: nil, bundle: nil)
 
     self.rock = rock

@@ -39,7 +39,7 @@ class SubmitRockFlowController: UINavigationController {
     self.pushViewController(camera, animated: true)
   }
 
-  func showProfile(rock: [String: AnyObject]) {
+  func showProfile(rock: Rock) {
     let profile = RockProfileController(rock: rock)
     profile.delegate = self
     self.pushViewController(profile, animated: true)
@@ -66,7 +66,7 @@ extension SubmitRockFlowController : RockProfileControllerDelegate {
 }
 
 extension SubmitRockFlowController : PotentialMatchCollectionDelegate {
-  func didSelectPotentialMatch(rock: [String: AnyObject]) {
+  func didSelectPotentialMatch(rock: Rock) {
     // show profile for rock
     showProfile(rock)
   }

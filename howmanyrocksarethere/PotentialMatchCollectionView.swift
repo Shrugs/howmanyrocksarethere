@@ -15,7 +15,7 @@ import SnapKit
 let muhCellIdentifier = "potential_cell"
 
 protocol PotentialMatchCollectionDelegate {
-  func didSelectPotentialMatch(rock: [String: AnyObject])
+  func didSelectPotentialMatch(rock: Rock)
   func didChooseUniqueRock()
 }
 
@@ -26,7 +26,7 @@ class PotentialMatchCollectionView : UIViewController {
 
   var delegate : PotentialMatchCollectionDelegate?
 
-  var rocks = [[String: AnyObject]]()
+  var rocks = [Rock]()
 
   lazy var uniqueButton : UIButton = { [unowned self] in
     let button = UIButton(type: .Custom)

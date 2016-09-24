@@ -114,7 +114,7 @@ class THE_DATABASE {
     }
   }
 
-  func getRocks(lastCreatedAt: String?, cb: ([[String: AnyObject]]) -> Void) {
+  func getRocks(lastCreatedAt: String?, cb: ([Rock]) -> Void) {
     var params = [String: String]()
     if let lastCreatedAt = lastCreatedAt {
       params["lastCreatedAt"] = lastCreatedAt
@@ -123,7 +123,7 @@ class THE_DATABASE {
       .responseJSON { resp in
         switch resp.result {
         case .Success(let JSON):
-          let rocks = JSON as! [[String: AnyObject]]
+          let rocks = JSON as! [Rock]
           cb(rocks)
         default:
            print(resp)
@@ -144,7 +144,7 @@ class THE_DATABASE {
     }
   }
 
-  func getNearbyRocks(lat lat: Double, lng: Double, radius: Int = 20, cb: ([[String: AnyObject]]) -> Void) {
+  func getNearbyRocks(lat lat: Double, lng: Double, radius: Int = 20, cb: ([Rock]) -> Void) {
     Alamofire.request(.GET, "\(baseUrl)/nearbyrocks", parameters: [
       "lat": lat,
       "lng": lng,
@@ -153,7 +153,7 @@ class THE_DATABASE {
       .responseJSON { resp in
         switch resp.result {
         case .Success(let JSON):
-          let rocks = JSON as! [[String: AnyObject]]
+          let rocks = JSON as! [Rock]
           cb(rocks)
         default:
           debugPrint(resp)
@@ -161,7 +161,7 @@ class THE_DATABASE {
     }
   }
 
-  func discoverRock(rockId: String, cb: ([String: AnyObject]) -> Void) {
+  func discoverRock(rockId: String, cb: (Rock) -> Void) {
     Alamofire.request(.POST, "\(baseUrl)/rock/\(rockId)/discover", headers: [
       "Authorization": "Token token=\(self.token ?? "")",
       "Accept": "application/json"
@@ -169,7 +169,7 @@ class THE_DATABASE {
       .responseJSON { resp in
         switch resp.result {
         case .Success(let JSON):
-          cb(JSON as! [String: AnyObject])
+          cb(JSON as! Rock)
         default:
           debugPrint(resp)
         }

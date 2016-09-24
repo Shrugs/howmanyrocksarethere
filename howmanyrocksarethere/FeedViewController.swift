@@ -18,7 +18,7 @@ class FeedViewController : UIViewController {
   var isLoadingRocks = false
   var totalRockCount = 0
 
-  var rocks = [[String: AnyObject]]()
+  var rocks = [Rock]()
 
   lazy var refreshControl : UIRefreshControl = {
     let refreshControl = UIRefreshControl()

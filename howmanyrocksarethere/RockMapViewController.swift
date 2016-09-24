@@ -37,7 +37,7 @@ class RockMapViewController: UIViewController {
     return button
   }()
 
-  var rocks = [[String: AnyObject]]()
+  var rocks = [Rock]()
 
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
     super.init(nibName: nil, bundle: nil)

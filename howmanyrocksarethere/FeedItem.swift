@@ -23,7 +23,7 @@ class FeedItem : UICollectionViewCell {
     }
   }
 
-  func setRock(rock: [String: AnyObject]) {
+  func setRock(rock: Rock) {
     profile.setRock(rock)
   }
 

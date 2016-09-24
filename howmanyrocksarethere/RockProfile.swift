@@ -159,7 +159,7 @@ class RockProfile: UIView {
     return label
   }
 
-  func setRock(rock: [String: AnyObject]) {
+  func setRock(rock: Rock) {
     let owner = rock["owner"] as! [String: String]
 
     ownerName.text = owner["username"]

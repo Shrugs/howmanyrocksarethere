@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PotentialMatchDelegate {
-  func didSelectPotentialMatch(rock: [String: AnyObject])
+  func didSelectPotentialMatch(rock: Rock)
 }
 
 class PotentialMatch: UICollectionViewCell {
@@ -18,7 +18,7 @@ class PotentialMatch: UICollectionViewCell {
 
   let profile = RockProfile()
 
-  var myRock : [String: AnyObject]?
+  var myRock : Rock?
 
   lazy var myRockButton : UIButton = {
     let button = UIButton(type: .Custom)
@@ -75,7 +75,7 @@ class PotentialMatch: UICollectionViewCell {
     }
   }
 
-  func setRock(rock: [String: AnyObject]) {
+  func setRock(rock: Rock) {
     self.myRock = rock
     profile.setRock(rock)
   }
