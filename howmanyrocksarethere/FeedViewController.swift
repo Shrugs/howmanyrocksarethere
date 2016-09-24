@@ -9,6 +9,7 @@
 import UIKit
 import WebImage
 import PKHUD
+import Async
 
 let cellIdentifier = "cell"
 
@@ -66,13 +67,17 @@ class FeedViewController : UIViewController {
     if showHUD {
       HUD.show(.Progress)
     }
-    THE_DATABASE.sharedDatabase.getRocks(nil) { [weak self] rocks in
-      if showHUD {
-        HUD.flash(.Success, delay: 0.3)
+    Async.userInitiated {
+      THE_DATABASE.sharedDatabase.getRocks(nil) { [weak self] rocks in
+        Async.main {
+          if showHUD {
+            HUD.flash(.Success, delay: 0.1)
+          }
+          self?.rocks = rocks
+          self?.collectionView.reloadData()
+          self?.refreshControl.endRefreshing()
+        }
       }
-      self?.rocks = rocks
-      self?.collectionView.reloadData()
-      self?.refreshControl.endRefreshing()
     }
   }
 
@@ -93,14 +98,20 @@ extension FeedViewController : UICollectionViewDelegate {
     let contentHeight = scrollView.contentSize.height - 700
     if actualPosition >= contentHeight && !isLoadingRocks {
       HUD.show(.Progress)
+      PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = true
+
       isLoadingRocks = true
       // reload the data, append to the bottom of self.rocks
       if let lastRock = self.rocks.last {
-        THE_DATABASE.sharedDatabase.getRocks(lastRock["created_at"] as? String) { (rocks) in
-          HUD.flash(.Success, delay: 0.3)
-          self.isLoadingRocks = false
-          self.rocks.appendContentsOf(rocks)
-          self.collectionView.reloadData()
+        Async.userInitiated {
+          THE_DATABASE.sharedDatabase.getRocks(lastRock["created_at"] as? String) { (rocks) in
+            Async.main {
+              HUD.hide()
+              self.isLoadingRocks = false
+              self.rocks.appendContentsOf(rocks)
+              self.collectionView.reloadData()
+            }
+          }
         }
       }
     }

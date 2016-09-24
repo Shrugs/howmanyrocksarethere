@@ -8,6 +8,7 @@
 
 import UIKit
 import AWSS3
+import Async
 
 protocol IsThisARockControllerDelegate {
   func isRock(image: UIImage, url: String)
@@ -47,49 +48,85 @@ class IsThisARockController : UIViewController {
     }
     loading.didMoveToParentViewController(self)
 
-    let path : String = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("image.png")
-    let resizedImage = resizeImage(image, newSize: CGSize(width: 128, height: 128))
-    UIImagePNGRepresentation(resizedImage)!.writeToFile(path as String, atomically: true)
+    Async.userInitiated { [unowned self] in
+      let path : String = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("image.png")
+      let resizedImage = resizeImage(self.image, newSize: CGSize(width: 128, height: 128))
+      UIImagePNGRepresentation(resizedImage)!.writeToFile(path as String, atomically: true)
 
-    let key = "\(randomAlphaNumericString(10)).png"
+      let key = "\(randomAlphaNumericString(10)).png"
 
-    let url : NSURL = NSURL(fileURLWithPath: path)
-    let uploadRequest = AWSS3TransferManagerUploadRequest()
-    uploadRequest.bucket = AWS.S3.BucketName
-    uploadRequest.ACL = .PublicRead
-    uploadRequest.key = key
-    uploadRequest.contentType = "image/png"
-    uploadRequest.body = url
+      let url : NSURL = NSURL(fileURLWithPath: path)
+      let uploadRequest = AWSS3TransferManagerUploadRequest()
+      uploadRequest.bucket = AWS.S3.BucketName
+      uploadRequest.ACL = .PublicRead
+      uploadRequest.key = key
+      uploadRequest.contentType = "image/png"
+      uploadRequest.body = url
 
-    //    uploadRequest.uploadProgress = {[unowned self] (bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) in
-    //      dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-    //        // @TODO(shrugs) update UI with progress
-    ////        self.amountUploaded = totalBytesSent
-    ////        self.filesize = totalBytesExpectedToSend;
-    ////        self.update()
-    //      })
-    //    }
+      //    uploadRequest.uploadProgress = {[unowned self] (bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) in
+      //      dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+      //        // @TODO(shrugs) update UI with progress
+      ////        self.amountUploaded = totalBytesSent
+      ////        self.filesize = totalBytesExpectedToSend;
+      ////        self.update()
+      //      })
+      //    }
 
-    let transferManager : AWSS3TransferManager = AWSS3TransferManager.defaultS3TransferManager()
-    // start the upload
-    transferManager.upload(uploadRequest).continueWithBlock { [weak self] (task) -> AnyObject? in
-      // once the uploadmanager finishes check if there were any errors
-      if (task.error != nil) {
-        print(task.error)
+      let transferManager : AWSS3TransferManager = AWSS3TransferManager.defaultS3TransferManager()
+      // start the upload
+      transferManager.upload(uploadRequest).continueWithBlock { [weak self] (task) -> AnyObject? in
+        // once the uploadmanager finishes check if there were any errors
+        if (task.error != nil) {
+          print(task.error)
+          return nil
+        }
+
+        let imageUrl = s3Url(key)
+
+        THE_DATABASE.sharedDatabase.isRock(imageUrl) { isRock in
+          Async.main {
+            if isRock {
+              self?.delegate?.isRock((self?.image)!, url: imageUrl)
+            } else {
+              self?.delegate?.isNotRock((self?.image)!, url: imageUrl)
+            }
+          }
+        }
+        
         return nil
       }
-      
-      let imageUrl = s3Url(key)
-
-      THE_DATABASE.sharedDatabase.isRock(imageUrl) { isRock in
-        if isRock {
-          self?.delegate?.isRock((self?.image)!, url: imageUrl)
-        } else {
-          self?.delegate?.isNotRock((self?.image)!, url: imageUrl)
-        }
-      }
-
-      return nil
     }
+
+
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Async
 
 class RockMapViewController: UIViewController {
 
@@ -72,14 +73,18 @@ class RockMapViewController: UIViewController {
 
   func fetchRocks(lat lat: Double, lng: Double, radius: Int) {
     isFetchingRocks = true
-    THE_DATABASE.sharedDatabase.getNearbyRocks(
-      lat: lat,
-      lng: lng,
-      radius: radius
-    ) { [weak self] rocks in
-      self?.isFetchingRocks = false
-      self?.rocks = rocks
-      self?.reloadData()
+    Async.userInitiated {
+      THE_DATABASE.sharedDatabase.getNearbyRocks(
+        lat: lat,
+        lng: lng,
+        radius: radius
+      ) { [weak self] rocks in
+        Async.main {
+          self?.isFetchingRocks = false
+          self?.rocks = rocks
+          self?.reloadData()
+        }
+      }
     }
   }
 }

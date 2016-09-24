@@ -92,12 +92,12 @@ function getNextId(name) {
 
 function onError(res) {
   return function(err) {
-
     console.log(err)
 
     res.status(500).json({
       err: err.message
     })
+
     throw err
   }
 }
@@ -127,6 +127,29 @@ function isValidUsername(username) {
 /**
  * Routes
  */
+
+app.get('/remap-ids', function(req, res) {
+  rocks
+    .find({})
+    .sort({ created_at: 1 })
+    .toArray()
+    .then((results) => {
+      var ps = []
+      results.forEach((rock, i) => {
+        console.log(`${rock.id} => ${i+1}`)
+        ps.push(
+          rocks.update({ _id: ObjectID(rock._id) }, {
+            $set: { id: i+1 }
+          })
+        )
+      })
+      return Promise.all(ps)
+    })
+    .then((results) => {
+      res.json(results)
+    })
+    .catch(onError(res))
+})
 app.get('/user/:id', function(req, res) {
   users.findOne({
     _id: ObjectID(req.params.id)
