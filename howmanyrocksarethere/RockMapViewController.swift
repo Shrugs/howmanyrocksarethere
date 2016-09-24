@@ -127,6 +127,7 @@ extension RockMapViewController : MKMapViewDelegate {
     if annotationView == nil {
       annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "demo")
       annotationView!.canShowCallout = true
+      annotationView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
     } else {
       annotationView!.annotation = annotation
     }
@@ -135,6 +136,10 @@ extension RockMapViewController : MKMapViewDelegate {
 
     return annotationView
 
+  }
+
+  func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    print(view)
   }
 }
 

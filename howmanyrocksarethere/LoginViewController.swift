@@ -10,6 +10,7 @@ import UIKit
 import TextFieldEffects
 import PermissionScope
 import PKHUD
+import SnapKit
 
 protocol LoginViewControllerDelegate {
   func didFinish()
@@ -43,13 +44,14 @@ class LoginViewController: UIViewController {
     let view = UIView()
     view.backgroundColor = Constants.Color.BackgroundColor
 
-    let imageView = UIImageView(image: UIImage(named: "Logo"))
+    let imageView = UIImageView(image: UIImage(named: "logo"))
     view.addSubview(imageView)
     imageView.snp_makeConstraints { make in
-      make.top.equalTo(view).offset(40)
+      make.top.equalTo(view).offset(20)
       make.centerX.equalTo(view)
-      make.width.equalTo(view).multipliedBy(0.4)
-      make.height.equalTo(imageView.snp_width)
+      make.height.equalTo(view).multipliedBy(0.7).priority(500)
+      make.height.lessThanOrEqualTo(view.snp_width).multipliedBy(0.4)
+      make.width.equalTo(imageView.snp_height)
     }
 
     let label = UILabel()
@@ -71,6 +73,8 @@ class LoginViewController: UIViewController {
 
   var delegate : LoginViewControllerDelegate?
 
+  var bottomConstraint : Constraint!
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -79,7 +83,6 @@ class LoginViewController: UIViewController {
     view.addSubview(banner)
     banner.snp_makeConstraints { make in
       make.top.left.right.equalTo(view)
-      make.height.equalTo(290)
     }
 
     view.addSubview(usernameField)
@@ -95,6 +98,7 @@ class LoginViewController: UIViewController {
       make.left.right.equalTo(view)
       make.top.equalTo(usernameField.snp_bottom).offset(10)
       make.height.equalTo(50)
+      bottomConstraint = make.bottom.equalTo(view).constraint
     }
 
     let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -120,11 +124,40 @@ class LoginViewController: UIViewController {
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
 
+    NSNotificationCenter
+      .defaultCenter()
+      .addObserver(
+        self,
+        selector: #selector(keyboardShown),
+        name: UIKeyboardDidShowNotification,
+        object: nil
+      )
+
     usernameField.becomeFirstResponder()
+  }
+
+  override func viewWillDisappear(animated: Bool) {
+    NSNotificationCenter.defaultCenter().removeObserver(self)
   }
 
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return .LightContent
+  }
+
+  func keyboardShown(notification: NSNotification) {
+    let info  = notification.userInfo!
+    let value: AnyObject = info[UIKeyboardFrameEndUserInfoKey]!
+
+    let rawFrame = value.CGRectValue
+    let keyboardFrame = view.convertRect(rawFrame, fromView: nil)
+
+    bottomConstraint.updateOffset(-1 * keyboardFrame.size.height)
+
+    view.setNeedsLayout()
+
+    UIView.animateWithDuration(0.3) {
+      self.view.layoutIfNeeded()
+    }
   }
 
   func login() {
