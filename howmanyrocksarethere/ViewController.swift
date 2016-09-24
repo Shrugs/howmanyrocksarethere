@@ -18,7 +18,14 @@ class ViewController: UITabBarController {
   }()
 
   let feed = FeedViewController()
-  let map = RockMapViewController()
+  lazy var map: UINavigationController = {
+    let map = RockMapViewController()
+    let navigationController = UINavigationController(rootViewController: map)
+    navigationController.setNavigationBarHidden(true, animated: false)
+
+    return navigationController
+  }()
+
 
   override func viewDidLoad() {
     super.viewDidLoad()

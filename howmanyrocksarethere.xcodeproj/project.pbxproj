@@ -15,6 +15,7 @@
 		C95DEE701D96345800602621 /* Async.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95DEE6F1D96345800602621 /* Async.framework */; };
 		C95DEE741D96439700602621 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95DEE731D96439700602621 /* UIImage+Gif.swift */; };
 		C95DEE781D96460000602621 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C95DEE771D96460000602621 /* loading.gif */; };
+		C95DEE7A1D9726A700602621 /* Rock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95DEE791D9726A700602621 /* Rock.swift */; };
 		C9ED86691D8EE81100E14FDF /* PermissionScope.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED86681D8EE81100E14FDF /* PermissionScope.framework */; };
 		C9ED866B1D8EFB7600E14FDF /* PKHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED866A1D8EFB7600E14FDF /* PKHUD.framework */; };
 		C9F82B211D8483CF00608689 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F82B201D8483CF00608689 /* AppDelegate.swift */; };
@@ -57,6 +58,7 @@
 		C95DEE6F1D96345800602621 /* Async.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Async.framework; path = Carthage/Build/iOS/Async.framework; sourceTree = SOURCE_ROOT; };
 		C95DEE731D96439700602621 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		C95DEE771D96460000602621 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		C95DEE791D9726A700602621 /* Rock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rock.swift; sourceTree = "<group>"; };
 		C9ED86681D8EE81100E14FDF /* PermissionScope.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PermissionScope.framework; path = Carthage/Build/iOS/PermissionScope.framework; sourceTree = SOURCE_ROOT; };
 		C9ED866A1D8EFB7600E14FDF /* PKHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PKHUD.framework; path = Carthage/Build/iOS/PKHUD.framework; sourceTree = SOURCE_ROOT; };
 		C9F82B1D1D8483CF00608689 /* howmanyrocksarethere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = howmanyrocksarethere.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +118,7 @@
 		C9F82B141D8483CF00608689 = {
 			isa = PBXGroup;
 			children = (
+				C95DEE791D9726A700602621 /* Rock.swift */,
 				C9F82B1F1D8483CF00608689 /* howmanyrocksarethere */,
 				C9F82B1E1D8483CF00608689 /* Products */,
 			);
@@ -304,6 +307,7 @@
 				C9F82B5F1D85B85600608689 /* RockProfile.swift in Sources */,
 				C9F82B3E1D848EEE00608689 /* Constants.swift in Sources */,
 				C9F82B501D8503A800608689 /* Env.swift in Sources */,
+				C95DEE7A1D9726A700602621 /* Rock.swift in Sources */,
 				C936EB9E1D85E609006DBEC5 /* ValidRockController.swift in Sources */,
 				C936EBA01D85E743006DBEC5 /* NSTimer+Swift.swift in Sources */,
 				C936EBA61D85F864006DBEC5 /* RockAnnotation.swift in Sources */,

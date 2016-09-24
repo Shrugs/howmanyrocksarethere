@@ -12,11 +12,17 @@ class RockAnnotation: NSObject, MKAnnotation {
   let title: String?
   let subtitle: String?
   let coordinate: CLLocationCoordinate2D
+  let rock: Rock
 
-  init(title: String, description: String, coordinate: CLLocationCoordinate2D) {
-    self.title = title
-    self.subtitle = description
-    self.coordinate = coordinate
+  init(rock: Rock) {
+    self.rock = rock
+
+    self.title = (rock["nickname"] as? String) ?? "Some Rock"
+    self.subtitle = (rock["comment"] as? String) ?? ""
+
+    let lat = rock["lat"] as! Double
+    let lng = rock["lng"] as! Double
+    self.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
 
     super.init()
   }

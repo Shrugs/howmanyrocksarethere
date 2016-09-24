@@ -68,12 +68,8 @@ class RockMapViewController: UIViewController {
 
   func reloadData() {
     for rock in rocks {
-      if let lat = rock["lat"] as? Double, lng = rock["lng"] as? Double {
-        let ann = RockAnnotation(
-          title: (rock["nickname"] ?? "Some Rock") as! String,
-          description: "",
-          coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        )
+      if let _ = rock["lat"] as? Double, _ = rock["lng"] as? Double {
+        let ann = RockAnnotation(rock: rock)
 
         mapView.addAnnotation(ann)
       }
@@ -164,7 +160,16 @@ extension RockMapViewController : MKMapViewDelegate {
   }
 
   func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-    print(view)
+    let ann = view.annotation as! RockAnnotation
+    let vc = RockProfileController(rock: ann.rock)
+    vc.delegate = self
+    self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension RockMapViewController : RockProfileControllerDelegate {
+  func shouldClose() {
+    self.navigationController?.popViewControllerAnimated(true)
   }
 }
 
