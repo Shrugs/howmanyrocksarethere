@@ -180,6 +180,15 @@ app.get('/total-rocks', function(req, res) {
     })
 })
 
+app.get('/total-notrocks', function(req, res) {
+  notrocks.count()
+    .then((ret) => {
+      res.json({
+        count: ret
+      })
+    })
+})
+
 app.get('/valid-username', function(req, res) {
   var username = req.query.username
 
