@@ -14,7 +14,7 @@ import Async
 class RockMapViewController: UIViewController {
 
   var hasCentered = false
-  var isFetchingRocks = false
+  var isFetchingRocks = true
 
   let locationManager = CLLocationManager()
 
@@ -84,6 +84,8 @@ class RockMapViewController: UIViewController {
   func centerMapOnLocation(location: CLLocation) {
     let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
     mapView.setRegion(coordinateRegion, animated: true)
+    isFetchingRocks = false
+    fetchRocks(lat: location.coordinate.latitude, lng: location.coordinate.longitude, radius: 2000)
   }
 
   func fetchRocks(lat lat: Double, lng: Double, radius: Int) {

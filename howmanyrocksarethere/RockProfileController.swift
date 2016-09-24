@@ -19,6 +19,9 @@ class RockProfileController: UIViewController {
   let profile = RockProfile()
   var rock : Rock!
 
+  let container = UIScrollView()
+  let content = UIView()
+
   var price = 0.40
 
   lazy var claimButton : UIButton = { [unowned self] in
@@ -49,24 +52,36 @@ class RockProfileController: UIViewController {
 
     view.backgroundColor = Constants.Color.AltBackground
 
-    profile.setRock(self.rock)
-    view.addSubview(profile)
-    profile.snp_makeConstraints { make in
-      make.top.left.right.equalTo(view)
-      make.height.equalTo(view.snp_width).multipliedBy(1.60)
+    view.addSubview(container)
+    container.snp_makeConstraints { make in
+      make.edges.equalTo(view)
     }
 
-    view.addSubview(claimButton)
+    container.addSubview(content)
+    content.snp_makeConstraints { make in
+      make.edges.equalTo(container)
+      make.width.equalTo(view)
+      make.height.equalTo(view)
+    }
+
+    profile.setRock(self.rock)
+    content.addSubview(profile)
+    profile.snp_makeConstraints { make in
+      make.top.left.right.equalTo(content)
+      make.height.equalTo(content.snp_width).multipliedBy(1.60)
+    }
+
+    content.addSubview(claimButton)
     claimButton.snp_makeConstraints { make in
       make.top.equalTo(profile.snp_bottom)
-      make.left.right.equalTo(view)
-      make.bottom.equalTo(view)
+      make.left.right.equalTo(content)
+      make.height.equalTo(70)
     }
 
     view.addSubview(closeButton)
     closeButton.snp_makeConstraints { make in
-      make.top.equalTo(profile).offset(5)
-      make.left.equalTo(profile).offset(5)
+      make.top.equalTo(view).offset(5)
+      make.left.equalTo(view).offset(5)
       make.width.height.equalTo(40)
     }
   }
