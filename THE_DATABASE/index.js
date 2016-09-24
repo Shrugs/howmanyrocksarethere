@@ -201,16 +201,24 @@ app.get('/valid-username', function(req, res) {
 
 function getCollectionHandler(collection) {
   return (req, res) => {
-    var lastCreatedAt = req.query.lastCreatedAt
-    lastCreatedAt = lastCreatedAt ?
-                      (new Date(lastCreatedAt)) :
-                      (new Date())
 
-    collection
-      .find({ created_at: { $lt: lastCreatedAt } })
-      .limit(5)
-      .sort({ created_at: -1 })
-      .toArray()
+    var getRocks
+    if (req.query.all === "") {
+      getRocks = collection.find({}).toArray()
+    } else {
+      var lastCreatedAt = req.query.lastCreatedAt
+      lastCreatedAt = lastCreatedAt ?
+                        (new Date(lastCreatedAt)) :
+                        (new Date())
+
+      getRocks = collection
+        .find({ created_at: { $lt: lastCreatedAt } })
+        .limit(5)
+        .sort({ created_at: -1 })
+        .toArray()
+    }
+
+    getRocks
       .then(function(results) {
         // for each rock, load the user
         return Promise
