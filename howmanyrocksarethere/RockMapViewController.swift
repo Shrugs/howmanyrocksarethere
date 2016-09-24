@@ -11,6 +11,8 @@ import MapKit
 import CoreLocation
 import Async
 
+let DEFAULT_RADIUS = 3000 // meters
+
 class RockMapViewController: UIViewController {
 
   var hasCentered = false
@@ -78,6 +80,10 @@ class RockMapViewController: UIViewController {
 
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
+
+    if let loc = mapView.userLocation.location {
+      fetchRocks(lat: loc.coordinate.latitude, lng: loc.coordinate.longitude)
+    }
   }
 
   let regionRadius: CLLocationDistance = 1000
@@ -85,10 +91,10 @@ class RockMapViewController: UIViewController {
     let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
     mapView.setRegion(coordinateRegion, animated: true)
     isFetchingRocks = false
-    fetchRocks(lat: location.coordinate.latitude, lng: location.coordinate.longitude, radius: 2000)
+    fetchRocks(lat: location.coordinate.latitude, lng: location.coordinate.longitude)
   }
 
-  func fetchRocks(lat lat: Double, lng: Double, radius: Int) {
+  func fetchRocks(lat lat: Double, lng: Double, radius: Int = DEFAULT_RADIUS) {
     isFetchingRocks = true
     Async.userInitiated {
       THE_DATABASE.sharedDatabase.getNearbyRocks(
