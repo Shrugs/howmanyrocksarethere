@@ -8,7 +8,7 @@
 
 import Alamofire
 
-let PROB_THRESH = 0.2
+let PROB_THRESH = 0.4
 
 class THE_DATABASE {
 

@@ -314,8 +314,8 @@ app.get('/nearbyrocks', function(req, res) {
               parseFloat(req.query.lat)
             ]
           },
-          $maxDistance: Math.max(
-            parseInt(req.query.radius) || 500,
+          $maxDistance: Math.min(
+            parseInt(req.query.radius) || 10,
             5000
           ),
           $minDistance: 0
