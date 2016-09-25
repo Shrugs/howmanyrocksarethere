@@ -13,10 +13,29 @@ class RockProfile: UIView {
   var discoveredBy = UILabel()
   var imageView = UIImageView()
   var style : String = ""
-  let ownerImage = UIImageView()
+
+  lazy var ownerInitial : UILabel = {
+    let label = UILabel()
+    label.font = UIFont(name: Constants.Text.BoldFont.Name, size: Constants.Text.BoldFont.Size)
+    label.text = "?"
+    label.textAlignment = .Center
+    label.textColor = Constants.Color.White
+    return label
+  }()
+
+  lazy var ownerImage : UIView = {
+    let view = UIView()
+    view.backgroundColor = Constants.Color.TintColor
+    return view
+  }()
+
   let ownerName = UILabel()
 
   var answerLabels = [UILabel]()
+
+  convenience init() {
+    self.init(frame: CGRect.zero)
+  }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -41,6 +60,13 @@ class RockProfile: UIView {
       make.centerY.equalTo(ownerView)
       make.height.equalTo(ownerView.snp_height).multipliedBy(imageRatio)
       make.width.equalTo(ownerImage.snp_height)
+    }
+
+    ownerImage.addSubview(ownerInitial)
+    ownerInitial.snp_makeConstraints { make in
+      make.right.bottom.equalTo(ownerImage)
+      make.top.equalTo(ownerImage).offset(2)
+      make.left.equalTo(ownerImage).offset(1)
     }
 
     let discoveredBy = UILabel()
@@ -163,7 +189,7 @@ class RockProfile: UIView {
     let owner = rock["owner"] as! [String: String]
 
     ownerName.text = owner["username"]
-    ownerImage.sd_setImageWithURL(NSURL(string: owner["image"]!)!)
+    ownerInitial.text = String((owner["username"] ?? "?").characters.first!).uppercaseString
     imageView.sd_setImageWithURL(NSURL(string: rock["image"] as! String))
 
     // properties
