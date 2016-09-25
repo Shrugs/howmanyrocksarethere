@@ -38,7 +38,7 @@ class THE_DATABASE {
 
   var clarifaiAuthToken : String?
 
-  let baseUrl = Constants.Urls.Base
+  let baseUrl = Urls.Base
 
 
   func refreshClarifaiAccessToken() {

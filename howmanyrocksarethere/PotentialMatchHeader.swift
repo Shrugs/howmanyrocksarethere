@@ -26,7 +26,7 @@ class PotentialMatchHeader: UICollectionReusableView {
     self.addSubview(label)
     label.snp_makeConstraints { make in
       make.center.height.equalTo(self)
-      make.width.equalTo(self).multipliedBy(0.8)
+      make.width.equalTo(self).multipliedBy(0.9)
     }
   }
 
