@@ -4,6 +4,6 @@ It's an age-old question, and we're here to answer it. Contribute a rock near yo
 
 # Screenshots
 
-<img src="assets/example1.png" width="33%" />
-<img src="assets/example2.png" width="33%" />
-<img src="assets/example3.png" width="33%" />
+<img src="assets/example1.png" width="32%" />
+<img src="assets/example2.png" width="32%" />
+<img src="assets/example3.png" width="32%" />
