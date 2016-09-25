@@ -70,9 +70,10 @@ class RockMapViewController: UIViewController {
 
   func reloadData() {
     for rock in rocks {
-      if let _ = rock["lat"] as? Double, _ = rock["lng"] as? Double {
-        let ann = RockAnnotation(rock: rock)
+      if let loc = rock["location"] as? [String: AnyObject],
+        _ = loc["coordinates"] as? [Double] {
 
+        let ann = RockAnnotation(rock: rock)
         mapView.addAnnotation(ann)
       }
     }
